@@ -12,26 +12,29 @@
     tools:context=".view.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true">
+        android:orientation="horizontal">
 
-        <com.dreamfactory.bluetooth.wedigt.RadarScanView
-            android:id="@+id/radar_view"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-
-        <TextView
-            style="@style/font_14"
-            android:layout_width="wrap_content"
+        <Button
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/search"/>
+            android:layout_weight="1"
+            android:text="设置栏"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="其他栏"/>
 
     </LinearLayout>
-
 
 </RelativeLayout>
