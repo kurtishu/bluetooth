@@ -8,6 +8,30 @@
 
     <string name="search">搜索设备</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_tips_01">最近一晚打鼾时间</string>
+    <string name="label_tips_02">最近一晚安静时间</string>
+    <string name="label_tips_03">最近一晚SG工作时间</string>
+    <string name="label_tips_04">最近一晚SG工作次数</string>
+
+    <string name="label_tips_05">充气时间</string>
+    <string name="label_tips_06">放气时间</string>
+    <string name="label_tips_07">工作阀值</string>
+    <string name="label_tips_08">枕头软硬程度</string>
+    <string name="label_tips_09">工作耗时时间</string>
+    <string name="label_tips_10">装置复位</string>
+    <string name="label_tips_11">装置恢复出产设置</string>
+    <string name="label_tips_12">装置清除数据</string>
+
+    <string name="label_tips_13">定时工作设置</string>
+    <string name="label_tips_14">定时开始(时)</string>
+    <string name="label_tips_15">定时开始(分)</string>
+    <string name="label_tips_16">定时结束(时)</string>
+    <string name="label_tips_17">定时结束(分)</string>
+
+    <string name="label_tips_18">充气设置</string>
+    <string name="label_tips_19">充气状态</string>
+    <string name="label_tips_20">已充气时间</string>
+    <string name="label_tips_21">放气设置</string>
+    <string name="label_tips_22">放气状态</string>
+    <string name="label_tips_23">已放气时间</string>
 </resources>

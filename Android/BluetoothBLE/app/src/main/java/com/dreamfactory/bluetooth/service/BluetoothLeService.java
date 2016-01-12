@@ -1,5 +1,6 @@
 package com.dreamfactory.bluetooth.service;
 
+import android.annotation.TargetApi;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -15,6 +16,7 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -52,27 +54,29 @@ public class BluetoothLeService extends Service {
     }
 
 
-    private void scanLeDevice() {
-        if (null == mScanner) {
-            mScanner = mBluetoothAdapter.getBluetoothLeScanner();
-        }
-
-        // Stops scanning after a pre-defined scan period.
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mScanner.stopScan(mScanCallback);
-            }
-        }, 10000);
-
-        mScanner.startScan(mScanCallback);
-    }
-
-    private void stopScanLeDevice() {
-        if (null != mScanner) {
-            mScanner.stopScan(mScanCallback);
-        }
-    }
+//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//    private void scanLeDevice() {
+//        if (null == mScanner) {
+//            mScanner = mBluetoothAdapter.getBluetoothLeScanner();
+//        }
+//
+//        // Stops scanning after a pre-defined scan period.
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                mScanner.stopScan(mScanCallback);
+//            }
+//        }, 10000);
+//
+//        mScanner.startScan(mScanCallback);
+//    }
+//
+//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//    private void stopScanLeDevice() {
+//        if (null != mScanner) {
+//            mScanner.stopScan(mScanCallback);
+//        }
+//    }
 
 
     private String readerValue(List<BluetoothGattService> gattServices) {
@@ -93,31 +97,31 @@ public class BluetoothLeService extends Service {
 
     }
 
-    private ScanCallback mScanCallback = new ScanCallback() {
-        @Override
-        public void onScanResult(int callbackType, ScanResult result) {
-            super.onScanResult(callbackType, result);
-        }
-
-        @Override
-        public void onBatchScanResults(List<ScanResult> results) {
-            super.onBatchScanResults(results);
-
-            // Get device info.
-            List<BluetoothDevice> devices = new ArrayList<BluetoothDevice>();
-            for (ScanResult scanResult : results) {
-                devices.add(scanResult.getDevice());
-            }
-
-            //Stop Scanner.
-            mScanner.stopScan(this);
-        }
-
-        @Override
-        public void onScanFailed(int errorCode) {
-            super.onScanFailed(errorCode);
-        }
-    };
+//    private ScanCallback mScanCallback = new ScanCallback() {
+//        @Override
+//        public void onScanResult(int callbackType, ScanResult result) {
+//            super.onScanResult(callbackType, result);
+//        }
+//
+//        @Override
+//        public void onBatchScanResults(List<ScanResult> results) {
+//            super.onBatchScanResults(results);
+//
+//            // Get device info.
+//            List<BluetoothDevice> devices = new ArrayList<BluetoothDevice>();
+//            for (ScanResult scanResult : results) {
+//                devices.add(scanResult.getDevice());
+//            }
+//
+//            //Stop Scanner.
+//            mScanner.stopScan(this);
+//        }
+//
+//        @Override
+//        public void onScanFailed(int errorCode) {
+//            super.onScanFailed(errorCode);
+//        }
+//    };
 
 
 
