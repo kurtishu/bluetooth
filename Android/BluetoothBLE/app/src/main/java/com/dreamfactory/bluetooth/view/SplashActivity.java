@@ -33,6 +33,12 @@ public class SplashActivity extends AwesomeSplash {
         configSplash.setLogoSplash(R.mipmap.ic_launcher); //or any other drawable
         configSplash.setAnimLogoSplashDuration(2000); //int ms
         configSplash.setAnimLogoSplashTechnique(Techniques.Bounce);
+
+        //Customize Title
+        configSplash.setTitleSplash(getResources().getString(R.string.app_name));
+        configSplash.setTitleTextSize(30f); //float value
+        configSplash.setAnimTitleDuration(2000);
+        configSplash.setAnimTitleTechnique(Techniques.Landing);
     }
 
 

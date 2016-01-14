@@ -1,6 +1,5 @@
 package com.dreamfactory.bluetooth.service;
 
-import android.annotation.TargetApi;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -12,15 +11,14 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.bluetooth.le.BluetoothLeScanner;
-import android.bluetooth.le.ScanCallback;
-import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
+import android.os.Parcelable;
 import android.util.Log;
+
+import com.dreamfactory.bluetooth.util.BluetoothHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,104 +29,38 @@ import java.util.List;
  */
 public class BluetoothLeService extends Service {
 
-
+    public static final String ACTION_MESSAGE = "android.intent.action.MESSAGE";
+    public static final String ACTION_COMMAND = "Action_Command";
+    public static final String ACTION_DEVICES = "Action_DEVICE";
+    public static final String ACTION_SCANDEVICE_START = "Action_ScanDevice_Start";
+    public static final String ACTION_SCANDEVICE_STOP = "Action_ScanDevice_Stop";
     private static final String TAG = "BluetoothLeService";
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothLeScanner mScanner;
     private BluetoothGatt mBluetoothGatt;
     private Handler mHandler = new Handler();
     private boolean mScanning;
+    private BluetoothHelper bluetoothHelper;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        // Initializes Bluetooth adapter.
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        mBluetoothAdapter = bluetoothManager.getAdapter();
+    private BluetoothHelper.DeviceScanCallback scanCallback = new BluetoothHelper.DeviceScanCallback() {
 
-        if (!mBluetoothAdapter.isEnabled()) {
-            //Auto enable bluttooth.
-            mBluetoothAdapter.isEnabled();
-        }
-    }
-
-
-//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-//    private void scanLeDevice() {
-//        if (null == mScanner) {
-//            mScanner = mBluetoothAdapter.getBluetoothLeScanner();
-//        }
-//
-//        // Stops scanning after a pre-defined scan period.
-//        mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                mScanner.stopScan(mScanCallback);
-//            }
-//        }, 10000);
-//
-//        mScanner.startScan(mScanCallback);
-//    }
-//
-//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-//    private void stopScanLeDevice() {
-//        if (null != mScanner) {
-//            mScanner.stopScan(mScanCallback);
-//        }
-//    }
-
-
-    private String readerValue(List<BluetoothGattService> gattServices) {
-        for(BluetoothGattService service : gattServices) {
-            List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
-            Log.i(TAG , "Service UUID: " + service.getUuid().toString());
-            for (BluetoothGattCharacteristic characteristic : characteristics) {
-                Log.i(TAG, "Value:" + characteristic.getValue());
-                Log.i(TAG, "Description:" + characteristic.getDescriptors().toString());
-            }
+        @Override
+        public void onScan(List<BluetoothDevice> devices) {
+            Intent intent = new Intent(ACTION_MESSAGE);
+            intent.putParcelableArrayListExtra(ACTION_DEVICES, (ArrayList<? extends Parcelable>) devices);
+            sendBroadcast(intent);
         }
 
-        return null;
+        @Override
+        public void onScanFinished() {
 
-    }
+        }
 
-    private void write(byte[] data) {
+        @Override
+        public void onScanFailed() {
 
-    }
-
-//    private ScanCallback mScanCallback = new ScanCallback() {
-//        @Override
-//        public void onScanResult(int callbackType, ScanResult result) {
-//            super.onScanResult(callbackType, result);
-//        }
-//
-//        @Override
-//        public void onBatchScanResults(List<ScanResult> results) {
-//            super.onBatchScanResults(results);
-//
-//            // Get device info.
-//            List<BluetoothDevice> devices = new ArrayList<BluetoothDevice>();
-//            for (ScanResult scanResult : results) {
-//                devices.add(scanResult.getDevice());
-//            }
-//
-//            //Stop Scanner.
-//            mScanner.stopScan(this);
-//        }
-//
-//        @Override
-//        public void onScanFailed(int errorCode) {
-//            super.onScanFailed(errorCode);
-//        }
-//    };
-
-
-
-    private void connectGattServer(BluetoothDevice device) {
-        // Connecting to a GATT Server
-        device.connectGatt(this, false, bluetoothGattCallback);
-    }
+        }
+    };
 
     private BluetoothGattCallback bluetoothGattCallback = new BluetoothGattCallback() {
         @Override
@@ -180,16 +112,62 @@ public class BluetoothLeService extends Service {
     };
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        // Initializes Bluetooth adapter.
+        final BluetoothManager bluetoothManager =
+                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        mBluetoothAdapter = bluetoothManager.getAdapter();
+
+        if (!mBluetoothAdapter.isEnabled()) {
+            //Auto enable bluttooth.
+            mBluetoothAdapter.isEnabled();
+        }
+        bluetoothHelper = new BluetoothHelper(this, mHandler, mBluetoothAdapter);
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
 
         if (null != intent) {
 
+            String command = intent.getStringExtra(ACTION_COMMAND);
+            if (ACTION_SCANDEVICE_START.equals(command)) {
+                // scan device
+                bluetoothHelper.startLeScan(scanCallback);
+            } else if (ACTION_SCANDEVICE_STOP.equals(command)) {
+                // Stop scan device
+                bluetoothHelper.stopLeScan();
+            }
+
         }
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
-    @Nullable
+    private String readerValue(List<BluetoothGattService> gattServices) {
+        for (BluetoothGattService service : gattServices) {
+            List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+            Log.i(TAG, "Service UUID: " + service.getUuid().toString());
+            for (BluetoothGattCharacteristic characteristic : characteristics) {
+                Log.i(TAG, "Value:" + characteristic.getValue());
+                Log.i(TAG, "Description:" + characteristic.getDescriptors().toString());
+            }
+        }
+
+        return null;
+
+    }
+
+    private void write(byte[] data) {
+
+    }
+
+    private void connectGattServer(BluetoothDevice device) {
+        // Connecting to a GATT Server
+        device.connectGatt(this, false, bluetoothGattCallback);
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
