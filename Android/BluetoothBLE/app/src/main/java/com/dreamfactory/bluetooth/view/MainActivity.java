@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.dreamfactory.bluetooth.R;
 import com.dreamfactory.bluetooth.service.BluetoothLeService;
@@ -29,31 +30,28 @@ public class MainActivity extends BaseActivity {
         }
     };
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if (BluetoothLeService.ACTION_MESSAGE.equals(intent.getAction())) {
-                List<BluetoothDevice> devices = intent.getParcelableArrayListExtra(BluetoothLeService.ACTION_DEVICES);
-                mDeviceAdapter.setData(devices);
-            }
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initViews();
+    }
 
-        IntentFilter intentFilter = new IntentFilter(BluetoothLeService.ACTION_MESSAGE);
-        registerReceiver(mReceiver, intentFilter);
+    @Override
+    protected void onReceived(Context context, Intent intent) {
+        if (BluetoothLeService.ACTION_MESSAGE.equals(intent.getAction())) {
+            List<BluetoothDevice> devices = intent.getParcelableArrayListExtra(BluetoothLeService.INTENT_DEVICE_LIST);
+            if (null != devices) {
+                mDeviceAdapter.setData(devices);
+            } else {
+                Toast.makeText(MainActivity.this, "搜索结束，没有发现蓝牙设备", Toast.LENGTH_LONG).show();
+            }
+            mScanView.stop();
+        }
     }
 
     private void initViews() {
-
         mScanView = (RadarScanView) findViewById(R.id.radar_view);
         mScanView.setOnClickListener(mOnclickListener);
 
@@ -74,17 +72,5 @@ public class MainActivity extends BaseActivity {
             mScanView.start();
             sendCommand(BluetoothLeService.ACTION_SCANDEVICE_START);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(mReceiver);
-    }
-
-    private void sendCommand(String command) {
-        Intent intent = new Intent(MainActivity.this, BluetoothLeService.class);
-        intent.putExtra(BluetoothLeService.ACTION_COMMAND, command);
-        startService(intent);
     }
 }

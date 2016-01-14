@@ -19,6 +19,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.dreamfactory.bluetooth.util.BluetoothHelper;
+import com.dreamfactory.bluetooth.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,84 +32,39 @@ public class BluetoothLeService extends Service {
 
     public static final String ACTION_MESSAGE = "android.intent.action.MESSAGE";
     public static final String ACTION_COMMAND = "Action_Command";
-    public static final String ACTION_DEVICES = "Action_DEVICE";
+    public static final String INTENT_DEVICE_LIST = "Intent_Device_List";
+    public static final String INTENT_DEVICE = "Intent_Device_signle";
     public static final String ACTION_SCANDEVICE_START = "Action_ScanDevice_Start";
     public static final String ACTION_SCANDEVICE_STOP = "Action_ScanDevice_Stop";
+    public static final String ACTION_CONNECTDEVICE = "Action_ConnecDevice";
+    public static final String ACTION_WRITEDATA = "Action_WriteData";
+
     private static final String TAG = "BluetoothLeService";
     private BluetoothAdapter mBluetoothAdapter;
-    private BluetoothLeScanner mScanner;
-    private BluetoothGatt mBluetoothGatt;
     private Handler mHandler = new Handler();
-    private boolean mScanning;
     private BluetoothHelper bluetoothHelper;
 
     private BluetoothHelper.DeviceScanCallback scanCallback = new BluetoothHelper.DeviceScanCallback() {
 
         @Override
         public void onScan(List<BluetoothDevice> devices) {
+            LogUtil.i(TAG, "onScan");
             Intent intent = new Intent(ACTION_MESSAGE);
-            intent.putParcelableArrayListExtra(ACTION_DEVICES, (ArrayList<? extends Parcelable>) devices);
+            intent.putParcelableArrayListExtra(INTENT_DEVICE_LIST, (ArrayList<? extends Parcelable>) devices);
             sendBroadcast(intent);
         }
 
         @Override
         public void onScanFinished() {
-
+            LogUtil.i(TAG, "onScanFinished");
+            Intent intent = new Intent(ACTION_MESSAGE);
+            sendBroadcast(intent);
         }
 
         @Override
         public void onScanFailed() {
-
+            LogUtil.i(TAG, "onScanFailed");
         }
-    };
-
-    private BluetoothGattCallback bluetoothGattCallback = new BluetoothGattCallback() {
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            super.onConnectionStateChange(gatt, status, newState);
-            if (newState == BluetoothProfile.STATE_CONNECTED) {
-                Log.i(TAG, "Connected to GATT server.");
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                Log.i(TAG, "Disconnected from GATT server.");
-            }
-        }
-
-        @Override
-        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            super.onServicesDiscovered(gatt, status);
-            List<BluetoothGattService> services = gatt.getServices();
-        }
-
-        @Override
-        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            super.onCharacteristicRead(gatt, characteristic, status);
-        }
-
-        @Override
-        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            super.onCharacteristicWrite(gatt, characteristic, status);
-        }
-
-        @Override
-        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-            super.onCharacteristicChanged(gatt, characteristic);
-        }
-
-        @Override
-        public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            super.onDescriptorRead(gatt, descriptor, status);
-        }
-
-        @Override
-        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            super.onDescriptorWrite(gatt, descriptor, status);
-        }
-
-        @Override
-        public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
-            super.onReliableWriteCompleted(gatt, status);
-        }
-
     };
 
     @Override
@@ -139,8 +95,11 @@ public class BluetoothLeService extends Service {
             } else if (ACTION_SCANDEVICE_STOP.equals(command)) {
                 // Stop scan device
                 bluetoothHelper.stopLeScan();
-            }
+            } else if (ACTION_CONNECTDEVICE.equals(command)) {
+                bluetoothHelper.connectDevice((BluetoothDevice) intent.getParcelableExtra(INTENT_DEVICE));
+            } else if (ACTION_WRITEDATA.equals(command)) {
 
+            }
         }
         return START_STICKY;
     }
@@ -159,25 +118,9 @@ public class BluetoothLeService extends Service {
 
     }
 
-    private void write(byte[] data) {
-
-    }
-
-    private void connectGattServer(BluetoothDevice device) {
-        // Connecting to a GATT Server
-        device.connectGatt(this, false, bluetoothGattCallback);
-    }
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
-    public void close() {
-        if (mBluetoothGatt == null) {
-            return;
-        }
-        mBluetoothGatt.close();
-        mBluetoothGatt = null;
-    }
 }

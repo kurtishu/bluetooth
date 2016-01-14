@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dreamfactory.bluetooth.R;
+import com.dreamfactory.bluetooth.service.BluetoothLeService;
 import com.dreamfactory.bluetooth.view.SettingActivity;
 
 import java.util.ArrayList;
@@ -74,6 +75,7 @@ public class DeviceAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, SettingActivity.class);
+                intent.putExtra(BluetoothLeService.INTENT_DEVICE, device);
                 mContext.startActivity(intent);
             }
         });

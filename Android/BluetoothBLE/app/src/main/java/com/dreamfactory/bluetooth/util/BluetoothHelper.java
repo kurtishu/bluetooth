@@ -3,12 +3,20 @@ package com.dreamfactory.bluetooth.util;
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
+
+import com.dreamfactory.bluetooth.service.BluetoothLeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +35,8 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
     private Handler mHandler;
     private DeviceLeScanCallback mDeviceLeScanCallback;
     private boolean isScanning;
+
+    private BluetoothGatt mBluetoothGatt;
 
 
     public BluetoothHelper(Context mContext, Handler mHandler, BluetoothAdapter mAdapter) {
@@ -50,7 +60,7 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
                       performStopLeScan();
                   }
                 }
-            }, 10000);
+            }, 120000);
             performStartLeScan();
         }
     }
@@ -96,17 +106,20 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
             super.onScanResult(callbackType, result);
+            LogUtil.i(TAG, "onScanResult " + result.toString());
             addDevice(result.getDevice());
         }
 
         @Override
         public void onBatchScanResults(List<ScanResult> results) {
             super.onBatchScanResults(results);
+            LogUtil.i(TAG, "onBatchScanResults" + results.toString());
         }
 
         @Override
         public void onScanFailed(int errorCode) {
             super.onScanFailed(errorCode);
+            LogUtil.i(TAG, "on ScanFaild with error code = " + errorCode);
             if (null != mDeviceScanCallback) {
                 mDeviceScanCallback.onScanFailed();
             }
@@ -138,6 +151,10 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
 
     //=================================Scan Device End=========================
 
+    public List<BluetoothDevice> getDeviceList() {
+        return mDevices;
+    }
+
    public interface DeviceScanCallback {
 
         public void onScan(List<BluetoothDevice> devices);
@@ -145,5 +162,102 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
        public void onScanFailed();
 
        public void onScanFinished();
+    }
+
+
+    //=================================Connect Device=========================
+
+    public void connectDevice(BluetoothDevice device) {
+      mBluetoothGatt = device.connectGatt(mContext, false, new MyBluetoothGattConnectCallback());
+      if (mBluetoothGatt.connect()) {
+          LogUtil.i(TAG, "Device Connected");
+      } else {
+          LogUtil.i(TAG, "Device connected failed");
+      }
+    }
+
+    public void disconnectDevice() {
+        if (null != mBluetoothGatt) {
+            mBluetoothGatt.disconnect();
+            mBluetoothGatt = null;
+        }
+    }
+
+    class MyBluetoothGattConnectCallback extends BluetoothGattCallback {
+
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            super.onConnectionStateChange(gatt, status, newState);
+            LogUtil.i(TAG, "onConnectionStateChange status=" + status + " newState="+newState);
+        }
+
+        @Override
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            super.onServicesDiscovered(gatt, status);
+            LogUtil.i(TAG, "onServicesDiscovered status=" + status);
+            getServices();
+        }
+
+        @Override
+        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            super.onCharacteristicRead(gatt, characteristic, status);
+            LogUtil.i(TAG, "onCharacteristicRead status=" + status + " characteristic ="+ characteristic.toString());
+        }
+
+        @Override
+        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            super.onCharacteristicWrite(gatt, characteristic, status);
+            LogUtil.i(TAG, "onCharacteristicWrite status=" + status + " characteristic =" + characteristic.toString());
+        }
+
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+            super.onCharacteristicChanged(gatt, characteristic);
+            LogUtil.i(TAG, "onServicesDiscovered characteristic=" + characteristic);
+        }
+
+        @Override
+        public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            super.onDescriptorRead(gatt, descriptor, status);
+            LogUtil.i(TAG, "onDescriptorRead status=" + status + " descriptor="+descriptor.toString());
+        }
+
+        @Override
+        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            super.onDescriptorWrite(gatt, descriptor, status);
+            LogUtil.i(TAG, "onDescriptorWrite status=" + status + " descriptor=" + descriptor.toString());
+        }
+
+        @Override
+        public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
+            super.onReliableWriteCompleted(gatt, status);
+            LogUtil.i(TAG, "onReliableWriteCompleted status=" + status);
+        }
+
+        @Override
+        public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+            super.onReadRemoteRssi(gatt, rssi, status);
+            LogUtil.i(TAG, "onReadRemoteRssi status=" + status);
+        }
+
+        @Override
+        public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+            super.onMtuChanged(gatt, mtu, status);
+            LogUtil.i(TAG, "onMtuChanged status=" + status);
+        }
+    }
+
+    private void getServices() {
+        List<BluetoothGattService> result = mBluetoothGatt.getServices();
+        for (BluetoothGattService service : result) {
+            List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+            for (BluetoothGattCharacteristic characteristic : characteristics) {
+                LogUtil.i(TAG, "characteristic =" + characteristic.toString());
+            }
+        }
+    }
+
+    public void writeData() {
+
     }
 }
