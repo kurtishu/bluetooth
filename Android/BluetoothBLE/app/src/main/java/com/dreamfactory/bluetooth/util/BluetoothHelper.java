@@ -37,6 +37,7 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
     private boolean isScanning;
 
     private BluetoothGatt mBluetoothGatt;
+    private static final int DEFAULTSCANDURATION = 60000;
 
 
     public BluetoothHelper(Context mContext, Handler mHandler, BluetoothAdapter mAdapter) {
@@ -60,7 +61,7 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
                       performStopLeScan();
                   }
                 }
-            }, 120000);
+            }, DEFAULTSCANDURATION);
             performStartLeScan();
         }
     }

@@ -48,7 +48,7 @@ public class BluetoothLeService extends Service {
 
         @Override
         public void onScan(List<BluetoothDevice> devices) {
-            LogUtil.i(TAG, "onScan");
+            LogUtil.i(TAG, "====> onScan");
             Intent intent = new Intent(ACTION_MESSAGE);
             intent.putParcelableArrayListExtra(INTENT_DEVICE_LIST, (ArrayList<? extends Parcelable>) devices);
             sendBroadcast(intent);
@@ -56,14 +56,14 @@ public class BluetoothLeService extends Service {
 
         @Override
         public void onScanFinished() {
-            LogUtil.i(TAG, "onScanFinished");
+            LogUtil.i(TAG, "====> onScanFinished");
             Intent intent = new Intent(ACTION_MESSAGE);
             sendBroadcast(intent);
         }
 
         @Override
         public void onScanFailed() {
-            LogUtil.i(TAG, "onScanFailed");
+            LogUtil.i(TAG, "====> onScanFailed");
         }
     };
 
@@ -85,9 +85,7 @@ public class BluetoothLeService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-
         if (null != intent) {
-
             String command = intent.getStringExtra(ACTION_COMMAND);
             if (ACTION_SCANDEVICE_START.equals(command)) {
                 // scan device
@@ -98,24 +96,10 @@ public class BluetoothLeService extends Service {
             } else if (ACTION_CONNECTDEVICE.equals(command)) {
                 bluetoothHelper.connectDevice((BluetoothDevice) intent.getParcelableExtra(INTENT_DEVICE));
             } else if (ACTION_WRITEDATA.equals(command)) {
-
+               //TODO Write data
             }
         }
         return START_STICKY;
-    }
-
-    private String readerValue(List<BluetoothGattService> gattServices) {
-        for (BluetoothGattService service : gattServices) {
-            List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
-            Log.i(TAG, "Service UUID: " + service.getUuid().toString());
-            for (BluetoothGattCharacteristic characteristic : characteristics) {
-                Log.i(TAG, "Value:" + characteristic.getValue());
-                Log.i(TAG, "Description:" + characteristic.getDescriptors().toString());
-            }
-        }
-
-        return null;
-
     }
 
     @Override

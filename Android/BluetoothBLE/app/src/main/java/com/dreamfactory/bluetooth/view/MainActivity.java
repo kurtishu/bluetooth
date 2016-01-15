@@ -54,7 +54,6 @@ public class MainActivity extends BaseActivity {
     private void initViews() {
         mScanView = (RadarScanView) findViewById(R.id.radar_view);
         mScanView.setOnClickListener(mOnclickListener);
-
         mDeviceAdapter = new DeviceAdapter(this);
     }
 
