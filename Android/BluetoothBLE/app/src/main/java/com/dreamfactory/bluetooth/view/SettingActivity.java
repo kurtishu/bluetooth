@@ -32,7 +32,7 @@ public class SettingActivity extends BaseActivity {
 
         mDevice = getIntent().getParcelableExtra(BluetoothLeService.INTENT_DEVICE);
         if (null == mDevice) {
-            finish();
+            //finish();
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -46,7 +46,7 @@ public class SettingActivity extends BaseActivity {
         tabGroup.setOnCheckedChangeListener(mChangedListener);
         tabGroup.check(R.id.setting_button);
 
-        sendCommand(BluetoothLeService.ACTION_CONNECTDEVICE, mDevice);
+        //sendCommand(BluetoothLeService.ACTION_CONNECTDEVICE, mDevice);
     }
 
     private RadioGroup.OnCheckedChangeListener mChangedListener = new RadioGroup.OnCheckedChangeListener() {
