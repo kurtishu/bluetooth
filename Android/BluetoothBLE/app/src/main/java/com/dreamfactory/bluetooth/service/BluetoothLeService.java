@@ -48,7 +48,7 @@ public class BluetoothLeService extends Service {
 
         @Override
         public void onScan(List<BluetoothDevice> devices) {
-            LogUtil.i(TAG, "====> onScan");
+            LogUtil.i(TAG, "====> onScan success" + devices.toString());
             Intent intent = new Intent(ACTION_MESSAGE);
             intent.putParcelableArrayListExtra(INTENT_DEVICE_LIST, (ArrayList<? extends Parcelable>) devices);
             sendBroadcast(intent);
@@ -77,7 +77,7 @@ public class BluetoothLeService extends Service {
 
         if (!mBluetoothAdapter.isEnabled()) {
             //Auto enable bluttooth.
-            mBluetoothAdapter.isEnabled();
+            mBluetoothAdapter.enable();
         }
         bluetoothHelper = new BluetoothHelper(this, mHandler, mBluetoothAdapter);
     }

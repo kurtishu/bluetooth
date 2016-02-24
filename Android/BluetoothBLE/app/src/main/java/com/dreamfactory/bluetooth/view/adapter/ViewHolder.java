@@ -40,10 +40,10 @@ public class ViewHolder {
         return (T)view;
     }
 
-    public ViewHolder setText(int id, int resId) {
+    public ViewHolder setText(int id, String res) {
         TextView view = getView(id);
         if (null != view) {
-            view.setText(resId);
+            view.setText(res);
         }
         return this;
     }

@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.dreamfactory.bluetooth.R;
@@ -24,6 +25,7 @@ public class MainActivity extends BaseActivity {
 
     private RadarScanView mScanView;
     private DeviceAdapter mDeviceAdapter;
+    private ListView mDeviceList;
 
     private View.OnClickListener mOnclickListener = new View.OnClickListener() {
         @Override
@@ -57,6 +59,8 @@ public class MainActivity extends BaseActivity {
         mScanView = (RadarScanView) findViewById(R.id.radar_view);
         mScanView.setOnClickListener(mOnclickListener);
         mDeviceAdapter = new DeviceAdapter(this);
+        mDeviceList = (ListView) findViewById(R.id.device_list);
+        mDeviceList.setAdapter(mDeviceAdapter);
     }
 
     @Override
