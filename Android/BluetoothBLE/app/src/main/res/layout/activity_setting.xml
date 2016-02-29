@@ -36,26 +36,26 @@
         android:orientation="horizontal" >
 
         <RadioButton
-            android:id="@+id/setting_button"
+            android:id="@+id/diaplay_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radio_select_button_selector_left"
             android:button="@null"
             android:gravity="center"
-            android:text="设置"
+            android:text="@string/btn_display"
             android:textColor="@drawable/segment_text_color_selector"
             android:textSize="18dp" />
 
         <RadioButton
-            android:id="@+id/other_button"
+            android:id="@+id/setting_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/radio_select_button_selector_right"
             android:button="@null"
             android:gravity="center"
-            android:text="其他"
+            android:text="@string/btn_setting"
             android:textColor="@drawable/segment_text_color_selector"
             android:textSize="18dp" />
     </RadioGroup>

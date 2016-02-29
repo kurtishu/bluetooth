@@ -39,7 +39,7 @@ public class SettingActivity extends BaseActivity {
 
         tabGroup = (RadioGroup) findViewById(R.id.buttonPanel);
         tabGroup.setOnCheckedChangeListener(mChangedListener);
-        tabGroup.check(R.id.setting_button);
+        tabGroup.check(R.id.diaplay_button);
 
         //sendCommand(BluetoothLeService.ACTION_CONNECTDEVICE, mDevice);
     }
