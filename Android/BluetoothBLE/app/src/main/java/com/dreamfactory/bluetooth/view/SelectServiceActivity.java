@@ -53,6 +53,7 @@ public class SelectServiceActivity extends BaseActivity {
     private void initViews() {
         tvAddress = (TextView) findViewById(R.id.device_address);
         mListView = (ListView) findViewById(R.id.lists);
+        tvAddress.setText(mDevice.getAddress());
     }
 
     @Override
@@ -61,8 +62,9 @@ public class SelectServiceActivity extends BaseActivity {
     }
 
 
-    public void onEvent(GetServicesEvent event) {
+    public void onEventMainThread(GetServicesEvent event) {
         if (null != event && null != event.getServices()) {
+            isDisplayServices = true;
             servicesAdapter = new ServicesAdapter(SelectServiceActivity.this, mHandler);
             servicesAdapter.setDatas(event.getServices());
             mListView.setAdapter(servicesAdapter);
@@ -75,6 +77,7 @@ public class SelectServiceActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
            if (msg.what == 1) {
+               isDisplayServices = false;
                List<BluetoothGattCharacteristic> characteristics = (List<BluetoothGattCharacteristic>) msg.obj;
                characteristicAdapter = new CharacteristicAdapter(SelectServiceActivity.this);
                characteristicAdapter.setDatas(characteristics);
@@ -87,8 +90,9 @@ public class SelectServiceActivity extends BaseActivity {
     public void onBackPressed() {
         if (isDisplayServices) {
             super.onBackPressed();
-        } else if (null != characteristicAdapter) {
-            mListView.setAdapter(characteristicAdapter);
+        } else if (null != servicesAdapter) {
+            isDisplayServices = true;
+            mListView.setAdapter(servicesAdapter);
         }
     }
 

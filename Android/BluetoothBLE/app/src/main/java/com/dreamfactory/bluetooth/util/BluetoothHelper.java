@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothProfile;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
@@ -124,12 +125,7 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
      */
     public void connectDevice(BluetoothDevice device) {
         mBluetoothGatt = device.connectGatt(mContext, false, new MyBluetoothGattConnectCallback());
-        if (mBluetoothGatt.connect()) {
-            LogUtil.i(TAG, "Device Connected");
-        } else {
-            LogUtil.i(TAG, "Device connected failed");
-        }
-        mBluetoothGatt.discoverServices();
+
     }
 
     /**
@@ -215,7 +211,10 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             super.onConnectionStateChange(gatt, status, newState);
             LogUtil.i(TAG, "onConnectionStateChange status=" + status + " newState=" + newState + " Service:" + gatt.getServices());
-            getServices();
+
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                mBluetoothGatt.discoverServices();
+            }
         }
 
         @Override
