@@ -2,7 +2,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="com.dreamfactory.bluetooth.view.fragment.SettingDetailFragment">
+                tools:context=".view.fragment.ConfigSettingFragment">
 
     <LinearLayout
         android:id="@+id/section_one_layout"
@@ -105,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/section_one_layout"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:orientation="vertical"
         android:background="@drawable/settings_bg">
 
@@ -115,7 +115,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:text="@string/label_tips_05"
+                android:text="@string/label_tips_24"
                 android:layout_width="0dp"
                 android:layout_weight="0.5"
                 android:gravity="center"
@@ -136,7 +136,29 @@
             android:orientation="horizontal">
 
             <TextView
-                android:text="@string/label_tips_06"
+                android:text="@string/label_tips_25"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:inputType="numberDecimal"
+                android:imeOptions="actionNext"
+                android:layout_weight="0.5"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/label_tips_20"
                 android:layout_width="0dp"
                 android:layout_weight="0.5"
                 android:gravity="center"
@@ -157,7 +179,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:text="@string/label_tips_07"
+                android:text="@string/label_tips_22"
                 android:layout_width="0dp"
                 android:layout_weight="0.5"
                 android:gravity="center"
@@ -169,111 +191,6 @@
                 android:singleLine="true"
                 android:inputType="numberDecimal"
                 android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:text="@string/label_tips_08"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:text="@string/label_tips_09"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:text="@string/label_tips_10"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:text="@string/label_tips_11"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:text="@string/label_tips_12"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionDone"
                 android:layout_weight="0.5"/>
         </LinearLayout>
 

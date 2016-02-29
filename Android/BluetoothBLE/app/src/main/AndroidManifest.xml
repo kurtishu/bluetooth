@@ -36,7 +36,7 @@
 
         <service android:name=".service.BluetoothLeService" />
 
-        <activity android:name=".view.ServicesActivity"></activity>
+        <!--<activity android:name=".view.ServicesActivity"></activity>-->
     </application>
 
 </manifest>

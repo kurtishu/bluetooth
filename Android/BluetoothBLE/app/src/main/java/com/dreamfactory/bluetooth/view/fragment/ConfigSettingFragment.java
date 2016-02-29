@@ -1,7 +1,5 @@
 package com.dreamfactory.bluetooth.view.fragment;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,9 +8,9 @@ import android.view.ViewGroup;
 
 import com.dreamfactory.bluetooth.R;
 
-public class SettingDetailFragment extends Fragment {
+public class ConfigSettingFragment extends Fragment {
 
-    public SettingDetailFragment() {
+    public ConfigSettingFragment() {
         // Required empty public constructor
     }
 
@@ -20,10 +18,10 @@ public class SettingDetailFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment SettingDetailFragment.
+     * @return A new instance of fragment ConfigSettingFragment.
      */
-    public static SettingDetailFragment newInstance() {
-        SettingDetailFragment fragment = new SettingDetailFragment();
+    public static ConfigSettingFragment newInstance() {
+        ConfigSettingFragment fragment = new ConfigSettingFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -40,7 +38,7 @@ public class SettingDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting_detail, container, false);
+        return inflater.inflate(R.layout.fragment_setting, container, false);
     }
 
 }

@@ -2,9 +2,7 @@ package com.dreamfactory.bluetooth.view.adapter;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.AppCompatImageView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dreamfactory.bluetooth.R;
-import com.dreamfactory.bluetooth.service.BluetoothLeService;
-import com.dreamfactory.bluetooth.view.ServicesActivity;
-import com.dreamfactory.bluetooth.view.SettingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,9 +70,9 @@ public class DeviceAdapter extends BaseAdapter {
         viewHolder.settingIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, ServicesActivity.class);
-                intent.putExtra(BluetoothLeService.INTENT_DEVICE, device);
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext, ServicesActivity.class);
+//                intent.putExtra(BluetoothLeService.INTENT_DEVICE, device);
+//                mContext.startActivity(intent);
             }
         });
 

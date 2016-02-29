@@ -12,10 +12,10 @@ import com.dreamfactory.bluetooth.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OthersFragment extends Fragment {
+public class ConfigDisplayFragment extends Fragment {
 
 
-    public OthersFragment() {
+    public ConfigDisplayFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class OthersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_others, container, false);
+        return inflater.inflate(R.layout.fragment_display, container, false);
     }
 
 

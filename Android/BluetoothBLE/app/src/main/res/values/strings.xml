@@ -34,4 +34,6 @@
     <string name="label_tips_21">放气设置</string>
     <string name="label_tips_22">放气状态</string>
     <string name="label_tips_23">已放气时间</string>
+    <string name="label_tips_24">SG状态</string>
+    <string name="label_tips_25">泵状态</string>
 </resources>

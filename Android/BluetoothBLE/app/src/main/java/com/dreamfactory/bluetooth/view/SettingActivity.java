@@ -1,28 +1,23 @@
 package com.dreamfactory.bluetooth.view;
 
 import android.bluetooth.BluetoothDevice;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
 import com.dreamfactory.bluetooth.R;
 import com.dreamfactory.bluetooth.service.BluetoothLeService;
 import com.dreamfactory.bluetooth.view.base.BaseActivity;
-import com.dreamfactory.bluetooth.view.fragment.OthersFragment;
-import com.dreamfactory.bluetooth.view.fragment.SettingDetailFragment;
+import com.dreamfactory.bluetooth.view.fragment.ConfigDisplayFragment;
+import com.dreamfactory.bluetooth.view.fragment.ConfigSettingFragment;
 
 public class SettingActivity extends BaseActivity {
 
 
-    private SettingDetailFragment settingDetailFragment;
-    private OthersFragment othersFragment;
+    private ConfigSettingFragment configSettingFragment;
+    private ConfigDisplayFragment configDisplayFragment;
     private RadioGroup tabGroup;
     private BluetoothDevice mDevice;
 
@@ -39,8 +34,8 @@ public class SettingActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_arrow_back);
 
-        settingDetailFragment = SettingDetailFragment.newInstance();
-        othersFragment = new OthersFragment();
+        configSettingFragment = ConfigSettingFragment.newInstance();
+        configDisplayFragment = new ConfigDisplayFragment();
 
         tabGroup = (RadioGroup) findViewById(R.id.buttonPanel);
         tabGroup.setOnCheckedChangeListener(mChangedListener);
@@ -54,11 +49,11 @@ public class SettingActivity extends BaseActivity {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId == R.id.setting_button) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.content, settingDetailFragment)
+                        .replace(R.id.content, configSettingFragment)
                         .commit();
             } else {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.content, othersFragment)
+                        .replace(R.id.content, configDisplayFragment)
                         .commit();
             }
         }
