@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/snoring_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:labelFor="@string/app_name"
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/quiet_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -67,6 +69,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/sg_working_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:labelFor="@string/app_name"
@@ -89,6 +92,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/sg_working_times"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -122,6 +126,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/sg_status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -143,6 +148,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/pump_status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -165,6 +171,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/inflated_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -186,6 +193,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/deflate_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"

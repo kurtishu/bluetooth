@@ -1,4 +1,4 @@
-package com.dreamfactory.bluetooth.view.adapter;
+package com.dreamfactory.bluetooth.view.adapter.base;
 
 import android.util.SparseArray;
 import android.view.LayoutInflater;

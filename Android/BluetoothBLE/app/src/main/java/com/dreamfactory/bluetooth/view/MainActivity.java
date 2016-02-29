@@ -1,10 +1,8 @@
 package com.dreamfactory.bluetooth.view;
 
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -47,7 +45,7 @@ public class MainActivity extends BaseActivity {
         if (BluetoothLeService.ACTION_MESSAGE.equals(intent.getAction())) {
             List<BluetoothDevice> devices = intent.getParcelableArrayListExtra(BluetoothLeService.INTENT_DEVICE_LIST);
             if (null != devices) {
-                mDeviceAdapter.setData(devices);
+                mDeviceAdapter.setDatas(devices);
             } else {
                 Toast.makeText(MainActivity.this, "搜索结束，没有发现蓝牙设备", Toast.LENGTH_LONG).show();
             }

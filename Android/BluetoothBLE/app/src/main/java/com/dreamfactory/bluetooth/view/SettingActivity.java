@@ -1,6 +1,8 @@
 package com.dreamfactory.bluetooth.view;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,7 +17,6 @@ import com.dreamfactory.bluetooth.view.fragment.ConfigSettingFragment;
 
 public class SettingActivity extends BaseActivity {
 
-
     private ConfigSettingFragment configSettingFragment;
     private ConfigDisplayFragment configDisplayFragment;
     private RadioGroup tabGroup;
@@ -24,11 +25,6 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mDevice = getIntent().getParcelableExtra(BluetoothLeService.INTENT_DEVICE);
-        if (null == mDevice) {
-            //finish();
-        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -41,7 +37,7 @@ public class SettingActivity extends BaseActivity {
         tabGroup.setOnCheckedChangeListener(mChangedListener);
         tabGroup.check(R.id.diaplay_button);
 
-        //sendCommand(BluetoothLeService.ACTION_CONNECTDEVICE, mDevice);
+        sendCommand(BluetoothLeService.ACTION_READ_DATA);
     }
 
     private RadioGroup.OnCheckedChangeListener mChangedListener = new RadioGroup.OnCheckedChangeListener() {
@@ -84,5 +80,10 @@ public class SettingActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onReceived(Context context, Intent intent) {
+        super.onReceived(context, intent);
     }
 }

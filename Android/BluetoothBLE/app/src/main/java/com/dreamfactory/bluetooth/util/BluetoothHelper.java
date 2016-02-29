@@ -14,9 +14,6 @@ import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
-
-import com.dreamfactory.bluetooth.service.BluetoothLeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,16 +25,15 @@ import java.util.List;
 public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
 
     private static final String TAG = "BluetoothHelper";
+    private static final int DEFAULTSCANDURATION = 60000;
     private Context mContext;
     private BluetoothAdapter mAdapter;
-    private DeviceScanCallback mDeviceScanCallback;
+    private BluetoothCallback mBluetoothCallback;
     private List<BluetoothDevice> mDevices;
     private Handler mHandler;
     private DeviceLeScanCallback mDeviceLeScanCallback;
     private boolean isScanning;
-
     private BluetoothGatt mBluetoothGatt;
-    private static final int DEFAULTSCANDURATION = 60000;
 
 
     public BluetoothHelper(Context mContext, Handler mHandler, BluetoothAdapter mAdapter) {
@@ -47,37 +43,36 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
         mDevices = new ArrayList<BluetoothDevice>();
     }
 
-   //=================================Scan Device Start=========================
-   public void startLeScan(DeviceScanCallback callback) {
+    //=================================Scan Device Start=========================
+    public void startLeScan(BluetoothCallback callback) {
 
-       LogUtil.i(TAG, "============> Start scan");
+        LogUtil.i(TAG, "============> Start scan");
         mDevices.clear();
-        mDeviceScanCallback = callback;
-       performStartLeScan();
+        mBluetoothCallback = callback;
 
+        performStopLeScan();
 
-//        if (!isScanning) {
-//            mHandler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                  if (isScanning) {
-//                      performStopLeScan();
-//                  }
-//                }
-//            }, DEFAULTSCANDURATION);
-//            performStartLeScan();
-//        }
+        if (!isScanning) {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (isScanning) {
+                        performStopLeScan();
+                    }
+                }
+            }, DEFAULTSCANDURATION);
+            performStartLeScan();
+        }
     }
 
-   public void stopLeScan() {
-       LogUtil.i(TAG, "============> Stop scan");
-       mDeviceScanCallback = null;
-       performStopLeScan();
-   }
+    public void stopLeScan() {
+        LogUtil.i(TAG, "============> Stop scan");
+        performStopLeScan();
+    }
 
     private void performStartLeScan() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            BluetoothLeScanner scanner =  mAdapter.getBluetoothLeScanner();
+            BluetoothLeScanner scanner = mAdapter.getBluetoothLeScanner();
             mDeviceLeScanCallback = new DeviceLeScanCallback();
             scanner.startScan(mDeviceLeScanCallback);
         } else {
@@ -89,17 +84,100 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
     private void performStopLeScan() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            BluetoothLeScanner scanner =  mAdapter.getBluetoothLeScanner();
+            BluetoothLeScanner scanner = mAdapter.getBluetoothLeScanner();
             scanner.stopScan(mDeviceLeScanCallback);
 
         } else {
             mAdapter.stopLeScan(this);
         }
 
-        if (null != mDeviceScanCallback) {
-            mDeviceScanCallback.onScanFinished();
+        if (null != mBluetoothCallback) {
+            mBluetoothCallback.onScanFinished();
         }
         isScanning = false;
+    }
+
+    // 旧的API的Callback
+    @Override
+    public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
+        LogUtil.i(TAG, "onLeScan result: " + device.toString());
+        addDevice(device);
+    }
+
+    private void addDevice(BluetoothDevice targetDevice) {
+        mDevices.add(targetDevice);
+        if (null != mBluetoothCallback) {
+            mBluetoothCallback.onScan(mDevices);
+        }
+    }
+
+    public List<BluetoothDevice> getDeviceList() {
+        return mDevices;
+    }
+
+    //=================================Scan Device End=========================
+
+    /**
+     * Connect Connect to GATT Server hosted by this device.
+     *
+     * @param device select device;
+     */
+    public void connectDevice(BluetoothDevice device) {
+        mBluetoothGatt = device.connectGatt(mContext, false, new MyBluetoothGattConnectCallback());
+        if (mBluetoothGatt.connect()) {
+            LogUtil.i(TAG, "Device Connected");
+        } else {
+            LogUtil.i(TAG, "Device connected failed");
+        }
+        mBluetoothGatt.discoverServices();
+    }
+
+    /**
+     * Disconnects an established connection, or cancels a connection attempt
+     * currently in progress.
+     */
+    public void disconnectDevice() {
+        if (null != mBluetoothGatt) {
+            mBluetoothGatt.disconnect();
+            mBluetoothGatt = null;
+        }
+    }
+
+
+    //=================================Connect Device=========================
+
+    public void getServices() {
+        List<BluetoothGattService> result = mBluetoothGatt.getServices();
+        LogUtil.i(TAG, "getServices=" + result.toString());
+        for (BluetoothGattService service : result) {
+            List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+            for (BluetoothGattCharacteristic characteristic : characteristics) {
+                LogUtil.i(TAG, "characteristic =" + String.valueOf(characteristic.getValue()));
+            }
+        }
+        if (null != mBluetoothCallback) {
+            mBluetoothCallback.getServices(result);
+        }
+    }
+
+    public List<BluetoothGattCharacteristic> getCharacteristics(BluetoothGattService service) {
+        List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+        for (BluetoothGattCharacteristic characteristic : characteristics) {
+
+            LogUtil.i(TAG, "characteristic =" + String.valueOf(characteristic.getValue()));
+        }
+        return characteristics;
+    }
+
+    public interface BluetoothCallback {
+
+        public void onScan(List<BluetoothDevice> devices);
+
+        public void onScanFailed();
+
+        public void onScanFinished();
+
+        public void getServices(List<BluetoothGattService> services);
     }
 
     // 新的API的Callback
@@ -116,65 +194,18 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
         public void onBatchScanResults(List<ScanResult> results) {
             super.onBatchScanResults(results);
             LogUtil.i(TAG, "onBatchScanResults" + results.toString());
+            for (ScanResult result : results) {
+                addDevice(result.getDevice());
+            }
         }
 
         @Override
         public void onScanFailed(int errorCode) {
             super.onScanFailed(errorCode);
             LogUtil.i(TAG, "on ScanFaild with error code = " + errorCode);
-            if (null != mDeviceScanCallback) {
-                mDeviceScanCallback.onScanFailed();
+            if (null != mBluetoothCallback) {
+                mBluetoothCallback.onScanFailed();
             }
-        }
-    }
-
-    // 旧的API的Callback
-    @Override
-    public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-        LogUtil.i(TAG, "onLeScan result: " + device.toString());
-        addDevice(device);
-    }
-
-
-    private void addDevice(BluetoothDevice targetDevice) {
-        mDevices.add(targetDevice);
-        if (null != mDeviceScanCallback) {
-            mDeviceScanCallback.onScan(mDevices);
-        }
-    }
-
-    //=================================Scan Device End=========================
-
-    public List<BluetoothDevice> getDeviceList() {
-        return mDevices;
-    }
-
-   public interface DeviceScanCallback {
-
-        public void onScan(List<BluetoothDevice> devices);
-
-       public void onScanFailed();
-
-       public void onScanFinished();
-    }
-
-
-    //=================================Connect Device=========================
-
-    public void connectDevice(BluetoothDevice device) {
-      mBluetoothGatt = device.connectGatt(mContext, false, new MyBluetoothGattConnectCallback());
-        if (mBluetoothGatt.connect()) {
-          LogUtil.i(TAG, "Device Connected");
-      } else {
-          LogUtil.i(TAG, "Device connected failed");
-      }
-        mBluetoothGatt.discoverServices();
-    }
-
-    public void disconnectDevice() {
-        if (null != mBluetoothGatt) {
-            mBluetoothGatt.disconnect();
-            mBluetoothGatt = null;
         }
     }
 
@@ -183,7 +214,7 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             super.onConnectionStateChange(gatt, status, newState);
-            LogUtil.i(TAG, "onConnectionStateChange status=" + status + " newState="+newState + " Service:" + gatt.getServices());
+            LogUtil.i(TAG, "onConnectionStateChange status=" + status + " newState=" + newState + " Service:" + gatt.getServices());
             getServices();
         }
 
@@ -197,7 +228,7 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
-            LogUtil.i(TAG, "onCharacteristicRead status=" + status + " characteristic ="+ characteristic.toString());
+            LogUtil.i(TAG, "onCharacteristicRead status=" + status + " characteristic =" + characteristic.toString());
         }
 
         @Override
@@ -215,7 +246,7 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
         @Override
         public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
             super.onDescriptorRead(gatt, descriptor, status);
-            LogUtil.i(TAG, "onDescriptorRead status=" + status + " descriptor="+descriptor.toString());
+            LogUtil.i(TAG, "onDescriptorRead status=" + status + " descriptor=" + descriptor.toString());
         }
 
         @Override
@@ -241,20 +272,5 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
             super.onMtuChanged(gatt, mtu, status);
             LogUtil.i(TAG, "onMtuChanged status=" + status);
         }
-    }
-
-    private void getServices() {
-        List<BluetoothGattService> result = mBluetoothGatt.getServices();
-        LogUtil.i(TAG, "getServices=" + result.toString());
-        for (BluetoothGattService service : result) {
-            List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
-            for (BluetoothGattCharacteristic characteristic : characteristics) {
-                LogUtil.i(TAG, "characteristic =" + String.valueOf(characteristic.getValue()));
-            }
-        }
-    }
-
-    public void writeData() {
-
     }
 }

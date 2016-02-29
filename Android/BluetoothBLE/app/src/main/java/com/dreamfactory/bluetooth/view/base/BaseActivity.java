@@ -45,15 +45,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     };
 
     protected void sendCommand(String command) {
-        sendCommand(command,null);
-    }
-
-    protected void sendCommand(String command, BluetoothDevice device) {
         Intent intent = new Intent(BaseActivity.this, BluetoothLeService.class);
         intent.putExtra(BluetoothLeService.ACTION_COMMAND, command);
-        if (null != device) {
-            intent.putExtra(BluetoothLeService.INTENT_DEVICE, device);
-        }
         startService(intent);
     }
 

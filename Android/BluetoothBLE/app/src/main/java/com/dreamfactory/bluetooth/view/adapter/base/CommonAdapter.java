@@ -1,4 +1,4 @@
-package com.dreamfactory.bluetooth.view.adapter;
+package com.dreamfactory.bluetooth.view.adapter.base;
 
 
 import android.content.Context;
@@ -19,11 +19,13 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
     private List<T> mDatas;
     private LayoutInflater inflater;
     private int layoutId;
+    private Context mContext;
 
    public CommonAdapter(Context context, int layoutId) {
        mDatas = new ArrayList<T>();
        this.layoutId = layoutId;
        this.inflater = LayoutInflater.from(context);
+       mContext = context;
    }
 
     public void setDatas(List<T> datas) {
@@ -54,4 +56,8 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
     }
 
     public abstract void convert(ViewHolder viewHolder, int position);
+
+    public Context getContext() {
+        return mContext;
+    }
 }
