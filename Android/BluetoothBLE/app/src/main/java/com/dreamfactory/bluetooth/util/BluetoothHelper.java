@@ -209,6 +209,10 @@ public class BluetoothHelper implements BluetoothAdapter.LeScanCallback {
         mBluetoothGatt.writeCharacteristic(characteristic);
     }
 
+    public void readerCharacteristic(BluetoothGattCharacteristic characteristic) {
+        mBluetoothGatt.readCharacteristic(characteristic);
+    }
+
     class MyBluetoothGattConnectCallback extends BluetoothGattCallback {
 
         @Override
