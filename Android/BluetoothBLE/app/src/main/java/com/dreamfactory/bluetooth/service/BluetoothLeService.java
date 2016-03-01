@@ -112,8 +112,19 @@ public class BluetoothLeService extends Service {
     }
 
     private void readeData() {
-        Intent intent = new Intent(ACTION_MESSAGE);
-        sendBroadcast(intent);
+
+        characteristic.setValue("AB");
+
+        bluetoothHelper.writeCharacteristic(characteristic);
+
+        byte[] bits = characteristic.getValue();
+        String value = "";
+        for (byte b : bits) {
+            value += String.valueOf(b);
+        }
+        LogUtil.i(TAG, "Read Result: "+ value );
+        //Intent intent = new Intent(ACTION_MESSAGE);
+        //sendBroadcast(intent);
     }
 
     private void writeData(int[] array) {
