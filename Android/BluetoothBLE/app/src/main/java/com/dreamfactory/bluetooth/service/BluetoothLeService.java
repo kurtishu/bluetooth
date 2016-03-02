@@ -1,23 +1,20 @@
 package com.dreamfactory.bluetooth.service;
 
 import android.app.Service;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
-import android.bluetooth.BluetoothManager;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Parcelable;
-import android.widget.Toast;
 
+import com.dreamfactory.bluetooth.ble.BLEScanner;
+import com.dreamfactory.bluetooth.ble.BluetoothGattConnectCallback;
+import com.dreamfactory.bluetooth.ble.BluetoothHelper;
 import com.dreamfactory.bluetooth.event.ConnectDeviceEvent;
 import com.dreamfactory.bluetooth.event.GetServicesEvent;
 import com.dreamfactory.bluetooth.event.SelectCharacteristicEvent;
 import com.dreamfactory.bluetooth.event.WriteDataEvent;
-import com.dreamfactory.bluetooth.util.BluetoothHelper;
 import com.dreamfactory.bluetooth.util.LogUtil;
 
 import java.util.ArrayList;
@@ -43,54 +40,17 @@ public class BluetoothLeService extends Service {
     public static final String ACTION_READ_DATA = "ACTION_READ_DATA";
 
     private static final String TAG = "BluetoothLeService";
-    private BluetoothAdapter mBluetoothAdapter;
-    private Handler mHandler = new Handler();
+
     private BluetoothHelper bluetoothHelper;
-    private BluetoothGattCharacteristic characteristic;
-
-    private BluetoothHelper.BluetoothCallback scanCallback = new BluetoothHelper.BluetoothCallback() {
-
-        @Override
-        public void onScan(List<BluetoothDevice> devices) {
-            LogUtil.i(TAG, "====> onScan success" + devices.toString());
-            Intent intent = new Intent(ACTION_MESSAGE);
-            intent.putParcelableArrayListExtra(INTENT_DEVICE_LIST, (ArrayList<? extends Parcelable>) devices);
-            sendBroadcast(intent);
-        }
-
-        @Override
-        public void onScanFinished() {
-            LogUtil.i(TAG, "====> onScanFinished");
-            Intent intent = new Intent(ACTION_MESSAGE);
-            sendBroadcast(intent);
-        }
-
-        @Override
-        public void getServices(List<BluetoothGattService> services) {
-           EventBus.getDefault().post(new GetServicesEvent(services));
-        }
-
-        @Override
-        public void onScanFailed() {
-            LogUtil.i(TAG, "====> onScanFailed");
-        }
-    };
 
     @Override
     public void onCreate() {
         super.onCreate();
-        // Initializes Bluetooth adapter.
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        mBluetoothAdapter = bluetoothManager.getAdapter();
-
-        if (!mBluetoothAdapter.isEnabled()) {
-            //Auto enable bluttooth.
-            mBluetoothAdapter.enable();
-        }
-        bluetoothHelper = new BluetoothHelper(this, mHandler, mBluetoothAdapter);
 
         EventBus.getDefault().register(this);
+        bluetoothHelper = new BluetoothHelper(this);
+        bluetoothHelper.setScannerListener(scannerListener);
+        bluetoothHelper.setDiscoverServiceListener(discoverServiceListener);
     }
 
     @Override
@@ -100,10 +60,10 @@ public class BluetoothLeService extends Service {
             String command = intent.getStringExtra(ACTION_COMMAND);
             if (ACTION_SCANDEVICE_START.equals(command)) {
                 // scan device
-                bluetoothHelper.startLeScan(scanCallback);
+                bluetoothHelper.startScanBLEDevice();
             } else if (ACTION_SCANDEVICE_STOP.equals(command)) {
                 // Stop scan device
-                bluetoothHelper.stopLeScan();
+                bluetoothHelper.stopScanBLEDevice();
             } else if (ACTION_READ_DATA.equals(command)) {
                 readeData();
             }
@@ -113,11 +73,7 @@ public class BluetoothLeService extends Service {
 
     private void readeData() {
 
-        characteristic.setValue("AB");
-
-        bluetoothHelper.writeCharacteristic(characteristic);
-
-        byte[] bits = characteristic.getValue();
+        byte[] bits = bluetoothHelper.getSelectedCharacteristic().getValue();
         String value = "";
         for (byte b : bits) {
             value += String.valueOf(b);
@@ -130,7 +86,8 @@ public class BluetoothLeService extends Service {
     private void writeData(int[] array) {
         // Convert
         byte[] bytes = new byte[]{1, 2, 3, 4};
-        characteristic.setValue(bytes);
+        bluetoothHelper.getSelectedCharacteristic().setValue(bytes);
+        bluetoothHelper.writeCharacteristic(bluetoothHelper.getSelectedCharacteristic());
     }
 
 
@@ -148,7 +105,7 @@ public class BluetoothLeService extends Service {
 
     public void onEvent(SelectCharacteristicEvent event) {
         if (null != event && null != event.getCharacteristic()) {
-            characteristic = event.getCharacteristic();
+            bluetoothHelper.setSelectedCharacteristic(event.getCharacteristic());
         }
     }
 
@@ -162,5 +119,31 @@ public class BluetoothLeService extends Service {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        bluetoothHelper.disconnectDevice();
     }
+
+
+    private BLEScanner.BLEScannerListener scannerListener = new BLEScanner.BLEScannerListener() {
+        @Override
+        public void onScanResult(List<BluetoothDevice> device) {
+            LogUtil.i(TAG, "====> onScan success" + device.toString());
+            Intent intent = new Intent(ACTION_MESSAGE);
+            intent.putParcelableArrayListExtra(INTENT_DEVICE_LIST, (ArrayList<? extends Parcelable>) device);
+            sendBroadcast(intent);
+        }
+
+        @Override
+        public void onScanFinished() {
+            LogUtil.i(TAG, "====> onScanFinished");
+            Intent intent = new Intent(ACTION_MESSAGE);
+            sendBroadcast(intent);
+        }
+    };
+
+    private BluetoothGattConnectCallback.DiscoverServiceListener discoverServiceListener = new BluetoothGattConnectCallback.DiscoverServiceListener() {
+        @Override
+        public void onDiscoveredServices(List<BluetoothGattService> services) {
+            EventBus.getDefault().post(new GetServicesEvent(services));
+        }
+    };
 }
