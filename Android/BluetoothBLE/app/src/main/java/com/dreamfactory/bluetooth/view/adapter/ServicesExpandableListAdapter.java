@@ -76,7 +76,7 @@ public class ServicesExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         final BluetoothGattService service = getGroup(groupPosition);
         ViewHolder viewHolder = ViewHolder.get(convertView, parent, groupPosition, R.layout.layout_item_group, inflater);
-        viewHolder.setText(R.id.title_textview,
+        viewHolder.setText(R.id.section_header_text,
                 service.getType() == BluetoothGattService.SERVICE_TYPE_PRIMARY
                         ? "SERVICE_TYPE_PRIMARY" : "SERVICE_TYPE_SECONDARY");
         viewHolder.setText(R.id.sub_textview, service.getUuid().toString());

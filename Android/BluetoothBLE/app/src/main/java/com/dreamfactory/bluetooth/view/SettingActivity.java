@@ -37,7 +37,7 @@ public class SettingActivity extends BaseActivity {
         tabGroup.setOnCheckedChangeListener(mChangedListener);
         tabGroup.check(R.id.diaplay_button);
 
-        sendCommand(BluetoothLeService.ACTION_READ_DATA);
+
     }
 
     private RadioGroup.OnCheckedChangeListener mChangedListener = new RadioGroup.OnCheckedChangeListener() {
@@ -76,7 +76,7 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.action_save:
                 // Save data
-
+                sendCommand(BluetoothLeService.ACTION_READ_DATA);
                 break;
         }
         return super.onOptionsItemSelected(item);

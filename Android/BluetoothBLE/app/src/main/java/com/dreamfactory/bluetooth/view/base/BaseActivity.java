@@ -28,8 +28,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         tintManager.setStatusBarTintEnabled(true);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         IntentFilter intentFilter = new IntentFilter(BluetoothLeService.ACTION_MESSAGE);
         registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mReceiver);
     }
 
     protected abstract int rootView();
@@ -48,11 +60,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(BaseActivity.this, BluetoothLeService.class);
         intent.putExtra(BluetoothLeService.ACTION_COMMAND, command);
         startService(intent);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(mReceiver);
     }
 }

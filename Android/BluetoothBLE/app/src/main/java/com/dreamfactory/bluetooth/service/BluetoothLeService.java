@@ -73,6 +73,8 @@ public class BluetoothLeService extends Service {
 
     private void readeData() {
 
+        writeData(null);
+
         byte[] bits = bluetoothHelper.getSelectedCharacteristic().getValue();
         String value = "";
         for (byte b : bits) {
