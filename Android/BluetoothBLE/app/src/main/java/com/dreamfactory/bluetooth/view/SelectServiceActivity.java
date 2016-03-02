@@ -1,27 +1,16 @@
 package com.dreamfactory.bluetooth.view;
 
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dreamfactory.bluetooth.R;
 import com.dreamfactory.bluetooth.event.ConnectDeviceEvent;
 import com.dreamfactory.bluetooth.event.GetServicesEvent;
 import com.dreamfactory.bluetooth.service.BluetoothLeService;
-import com.dreamfactory.bluetooth.view.adapter.CharacteristicAdapter;
-import com.dreamfactory.bluetooth.view.adapter.ServicesAdapter;
 import com.dreamfactory.bluetooth.view.adapter.ServicesExpandableListAdapter;
 import com.dreamfactory.bluetooth.view.base.BaseActivity;
-
-import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
