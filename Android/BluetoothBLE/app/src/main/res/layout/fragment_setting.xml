@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/timming_setting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:labelFor="@string/app_name"
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/start_timming_h"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -67,6 +69,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/start_timming_m"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:labelFor="@string/app_name"
@@ -89,6 +92,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/end_timming_h"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -110,6 +114,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/end_timming_m"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -143,6 +148,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/inflated_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -164,6 +170,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/deflate_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -185,6 +192,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/working_threshold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -206,6 +214,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/degree"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -227,6 +236,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/woking_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -248,6 +258,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/reset"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -269,6 +280,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/reset_data"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -290,6 +302,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/clear_data"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
