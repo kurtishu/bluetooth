@@ -32,6 +32,10 @@ public class BluetoothApp extends Application {
         startService(new Intent(this, BluetoothLeService.class));
     }
 
+    /**
+     * Get the application Context
+     * @return
+     */
     public static Context getContext() {
         return context;
     }
