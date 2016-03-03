@@ -1,6 +1,7 @@
 package com.dreamfactory.bluetooth;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
@@ -12,10 +13,13 @@ import com.dreamfactory.bluetooth.service.BluetoothLeService;
  */
 public class BluetoothApp extends Application {
 
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
+        context = this;
         startService();
     }
 
@@ -26,5 +30,9 @@ public class BluetoothApp extends Application {
 
         }
         startService(new Intent(this, BluetoothLeService.class));
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

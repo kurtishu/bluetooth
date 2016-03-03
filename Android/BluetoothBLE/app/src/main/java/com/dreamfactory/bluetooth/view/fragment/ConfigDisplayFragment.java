@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.dreamfactory.bluetooth.R;
+import com.dreamfactory.bluetooth.event.ReadableSettingEvent;
+import com.dreamfactory.library.model.BluetoothReadableSetting;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +42,17 @@ public class ConfigDisplayFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
 
     private void initViews(View convertView) {
         etSnoringTime = (EditText) convertView.findViewById(R.id.snoring_time);
@@ -50,7 +65,20 @@ public class ConfigDisplayFragment extends Fragment {
         etDeflateTime = (EditText) convertView.findViewById(R.id.deflate_time);
     }
 
-    public void display() {
+    public void display(BluetoothReadableSetting setting) {
+        etSnoringTime.setText("" + setting.getSnoringTime());
+        etQuietTime.setText("" + setting.getQuietTime());
+        etSGWorkingTime.setText("" + setting.getSgWorkingTime());
+        etSGWorkingTimes.setText("" + setting.getSgWorkingTimes());
+        etSGStatus.setText("" + setting.getSgStatus());
+        etPumpStatus.setText("" + setting.getPumpStatus());
+        etInflatedTime.setText("" + setting.getInflatedTime());
+        etDeflateTime.setText("" + setting.getDeflateTime());
+    }
 
+    public void onEventMainThread(ReadableSettingEvent event) {
+        if (null != event && null != event.getReadableSetting()) {
+            display(event.getReadableSetting());
+        }
     }
 }

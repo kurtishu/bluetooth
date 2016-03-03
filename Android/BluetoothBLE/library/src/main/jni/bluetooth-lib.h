@@ -1,0 +1,8 @@
+//
+// Created by Kurtis Hu on 3/3/16.
+//
+
+#ifndef BLUETOOTHBLE_BLUETOOTH_LIB_H
+#define BLUETOOTHBLE_BLUETOOTH_LIB_H
+
+#endif //BLUETOOTHBLE_BLUETOOTH_LIB_H

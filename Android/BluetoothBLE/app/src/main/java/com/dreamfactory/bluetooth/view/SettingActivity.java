@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RadioGroup;
 
 import com.dreamfactory.bluetooth.R;
@@ -21,6 +22,7 @@ public class SettingActivity extends BaseActivity {
     private ConfigDisplayFragment configDisplayFragment;
     private RadioGroup tabGroup;
     private BluetoothDevice mDevice;
+    private MenuItem saveItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class SettingActivity extends BaseActivity {
         tabGroup.setOnCheckedChangeListener(mChangedListener);
         tabGroup.check(R.id.diaplay_button);
 
-
+        sendCommand(BluetoothLeService.ACTION_READ_DATA);
     }
 
     private RadioGroup.OnCheckedChangeListener mChangedListener = new RadioGroup.OnCheckedChangeListener() {
@@ -47,10 +49,16 @@ public class SettingActivity extends BaseActivity {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content, configSettingFragment)
                         .commit();
+                if (null != saveItem) {
+                    saveItem.setVisible(true);
+                }
             } else {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content, configDisplayFragment)
                         .commit();
+                if (null != saveItem) {
+                    saveItem.setVisible(false);
+                }
             }
         }
     };
@@ -64,6 +72,8 @@ public class SettingActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_settings, menu);
+        saveItem = menu.findItem(R.id.action_save);
+        saveItem.setVisible(false);
         return true;
     }
 
@@ -75,8 +85,7 @@ public class SettingActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_save:
-                // Save data
-                sendCommand(BluetoothLeService.ACTION_READ_DATA);
+                configSettingFragment.writeSettings();
                 break;
         }
         return super.onOptionsItemSelected(item);
