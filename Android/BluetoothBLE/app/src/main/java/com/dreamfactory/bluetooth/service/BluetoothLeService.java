@@ -76,7 +76,7 @@ public class BluetoothLeService extends Service {
     }
 
     /**
-     * 获取显示数据
+     * 获取设置显示数据
      */
     private void readeData() {
         if (null == bluetoothHelper.getSelectedCharacteristic()) return;
