@@ -62,6 +62,7 @@ public class BluetoothSettingManager {
         setting.setDeflateTime(5);
         setting.setPumpStatus(6);
         setting.setQuietTime(7);
+        setting.setSgStatus(8);
 
         return setting;
     }
