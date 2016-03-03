@@ -51,15 +51,22 @@ public class BluetoothHelper {
         bleScanner = new BLEScanner(mAdapter);
     }
 
+    /**
+     * 开始搜索设备
+     */
     public void startScanBLEDevice() {
         bleScanner.startLeScan();
     }
 
+    /**
+     * 停止搜索设备
+     */
     public void stopScanBLEDevice() {
         bleScanner.stopLeScan();
     }
 
     /**
+     * 连接设备
      * Connect Connect to GATT Server hosted by this device.
      *
      * @param device select device;
@@ -70,6 +77,7 @@ public class BluetoothHelper {
     }
 
     /**
+     * 断开连接设备
      * Disconnects an established connection, or cancels a connection attempt
      * currently in progress.
      */
@@ -80,6 +88,9 @@ public class BluetoothHelper {
         }
     }
 
+    /**
+     * 获取Service，好像暂时没用的
+     */
     public void getServices() {
         List<BluetoothGattService> result = mBluetoothGatt.getServices();
         LogUtil.i(TAG, "getServices=" + result.toString());
@@ -91,6 +102,9 @@ public class BluetoothHelper {
         }
     }
 
+    /**
+     * 获取Characteristics
+     */
     public List<BluetoothGattCharacteristic> getCharacteristics(BluetoothGattService service) {
         List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
         for (BluetoothGattCharacteristic characteristic : characteristics) {
@@ -100,10 +114,16 @@ public class BluetoothHelper {
         return characteristics;
     }
 
+    /**
+     * 往BluetoothGattCharacteristic上写数据
+     */
     public void writeCharacteristic(BluetoothGattCharacteristic characteristic){
         mBluetoothGatt.writeCharacteristic(characteristic);
     }
 
+    /**
+     * 读取BluetoothGattCharacteristic数据
+     */
     public void readerCharacteristic(BluetoothGattCharacteristic characteristic) {
         mBluetoothGatt.readCharacteristic(characteristic);
     }

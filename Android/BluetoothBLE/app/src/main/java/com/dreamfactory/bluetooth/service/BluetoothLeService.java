@@ -62,14 +62,14 @@ public class BluetoothLeService extends Service {
         if (null != intent) {
             String command = intent.getStringExtra(ACTION_COMMAND);
             if (ACTION_SCANDEVICE_START.equals(command)) {
-                // scan device
+                // When receive a command to scan device
                 bluetoothHelper.startScanBLEDevice();
             } else if (ACTION_SCANDEVICE_STOP.equals(command)) {
-                // Stop scan device
+                // When receive a command to stop scan device
                 bluetoothHelper.stopScanBLEDevice();
             } else if (ACTION_READ_DATA.equals(command)) {
+               // When receive a command to read setting data
                 readeData();
-                testing();
             }
         }
         return START_STICKY;
@@ -85,60 +85,43 @@ public class BluetoothLeService extends Service {
 
         // 写入读取显示设置的指令
         byte[] requestCommad = BluetoothSettingManager.getInstance().getReadableData();
+        //开始写指令
         bluetoothHelper.getSelectedCharacteristic().setValue(requestCommad);
+        // 给蓝牙写特征值，值就写入蓝牙模块
         bluetoothHelper.writeCharacteristic(bluetoothHelper.getSelectedCharacteristic());
 
+        // 获取返回特征值，特征值里面就带有返回结果
         byte[] result = bluetoothHelper.getSelectedCharacteristic().getValue();
-        //校验数据的完整性。。 省略
+        //校验数据的完整性。。 省略（需要校验写数据的完整性，今天讨论的？）
 
+        // 解析返回的特征值，这里会调用Native 方法， 返回一个对象 BluetoothReadableSetting
         BluetoothReadableSetting setting = BluetoothSettingManager.getInstance().getReadableSetting(result);
 
-        // 显示数据
+        // 显示数据，界面显示（这边使用的EventBus，订阅模式，一种解耦合的方法）
         EventBus.getDefault().post(new ReadableSettingEvent(setting));
     }
 
     /**
      * 设置数据
-     * @param setting
+     * @param setting 界面封装好 BluetoothWriteableSetting对象
      */
     private void writeData(BluetoothWriteableSetting setting) {
         if (null == bluetoothHelper.getSelectedCharacteristic()) return;
 
         LogUtil.i(TAG, "writeData start");
-        //获取设置指令
+        //根据BluetoothWriteableSetting对象，封装设置指令
         byte[] requestCommad = BluetoothSettingManager.getInstance().getWriteableData(setting);
-
+        // 写特征值，同上
         bluetoothHelper.getSelectedCharacteristic().setValue(requestCommad);
         bluetoothHelper.writeCharacteristic(bluetoothHelper.getSelectedCharacteristic());
-
+        // 解析返回结果
         byte[] result = bluetoothHelper.getSelectedCharacteristic().getValue();
+        //校验数据的完整性。。 省略（需要校验写数据的完整性，今天讨论的？）
 
-        //校验数据的完整性。。 省略
-
-        //获取写操作后的结果
+        //解析返回的结果，获取写操作后的结果 0， 准备的数据没有全部写入下位机； 1，写入正常； －1 通信数据不正确
         int status = BluetoothSettingManager.getInstance().getWriteableSettings(result);
         LogUtil.i(TAG, "writeData with status " + status);
-    }
-
-
-    /**
-     * 测试四个接口
-     */
-    private void testing() {
-        byte[] requestCommad = BluetoothSettingManager.getInstance().getReadableData();
-        for (byte req : requestCommad) {
-            LogUtil.i(TAG, "requestCommad: " + String.valueOf(req));
-        }
-        BluetoothReadableSetting setting = BluetoothSettingManager.getInstance().getReadableSetting(null);
-        LogUtil.i(TAG, "Readable result: " + setting.toString());
-
-        byte[] requestCommad2 = BluetoothSettingManager.getInstance().getWriteableData(null);
-        for (byte req : requestCommad2) {
-            LogUtil.i(TAG, "requestCommad2: " + String.valueOf(req));
-        }
-
-        int result = BluetoothSettingManager.getInstance().getWriteableSettings(null);
-        LogUtil.i(TAG, "Writeable result: " + result);
+        // 后面还应该，根据状态值给用户一个响应的提示，是写成功，还是失败了，这个后序再做。TODO
     }
 
     @Override

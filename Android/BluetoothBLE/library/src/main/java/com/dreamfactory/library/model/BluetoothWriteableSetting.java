@@ -3,6 +3,8 @@ package com.dreamfactory.library.model;
 /**
  * Author：kurtishu on 3/3/16
  * Eevery one should have a dream, what if one day it comes true!
+ *
+ * Model for configure setting info
  */
 public class BluetoothWriteableSetting {
 
