@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dreamfactory.bluetooth.R;
 import com.dreamfactory.bluetooth.event.ReadableSettingEvent;
@@ -19,14 +20,14 @@ import de.greenrobot.event.EventBus;
  */
 public class ConfigDisplayFragment extends Fragment {
 
-    private EditText etSnoringTime;
-    private EditText etQuietTime;
-    private EditText etSGWorkingTime;
-    private EditText etSGWorkingTimes;
-    private EditText etSGStatus;
-    private EditText etPumpStatus;
-    private EditText etInflatedTime;
-    private EditText etDeflateTime;
+    private TextView etSnoringTime;
+    private TextView etQuietTime;
+    private TextView etSGWorkingTime;
+    private TextView etSGWorkingTimes;
+    private TextView etSGStatus;
+    private TextView etPumpStatus;
+    private TextView etInflatedTime;
+    private TextView etDeflateTime;
 
     public ConfigDisplayFragment() {
         // Required empty public constructor
@@ -55,14 +56,14 @@ public class ConfigDisplayFragment extends Fragment {
     }
 
     private void initViews(View convertView) {
-        etSnoringTime = (EditText) convertView.findViewById(R.id.snoring_time);
-        etQuietTime = (EditText) convertView.findViewById(R.id.quiet_time);
-        etSGWorkingTime = (EditText) convertView.findViewById(R.id.sg_working_time);
-        etSGWorkingTimes = (EditText) convertView.findViewById(R.id.sg_working_times);
-        etSGStatus = (EditText) convertView.findViewById(R.id.sg_status);
-        etPumpStatus = (EditText) convertView.findViewById(R.id.pump_status);
-        etInflatedTime = (EditText) convertView.findViewById(R.id.inflated_time);
-        etDeflateTime = (EditText) convertView.findViewById(R.id.deflate_time);
+        etSnoringTime = (TextView) convertView.findViewById(R.id.snoring_time);
+        etQuietTime = (TextView) convertView.findViewById(R.id.quiet_time);
+        etSGWorkingTime = (TextView) convertView.findViewById(R.id.sg_working_time);
+        etSGWorkingTimes = (TextView) convertView.findViewById(R.id.sg_working_times);
+        etSGStatus = (TextView) convertView.findViewById(R.id.sg_status);
+        etPumpStatus = (TextView) convertView.findViewById(R.id.pump_status);
+        etInflatedTime = (TextView) convertView.findViewById(R.id.inflated_time);
+        etDeflateTime = (TextView) convertView.findViewById(R.id.deflate_time);
     }
 
     public void display(BluetoothReadableSetting setting) {

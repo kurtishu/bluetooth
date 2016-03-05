@@ -1,105 +1,137 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".view.fragment.ConfigSettingFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".view.fragment.ConfigSettingFragment">
 
     <LinearLayout
         android:id="@+id/section_one_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/settings_bg">
+        android:padding="10dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="30dp">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
                 android:text="@string/label_tips_01"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+                android:textColor="#585454" />
 
-            <EditText
+            <TextView
                 android:id="@+id/snoring_time"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="right"
                 android:labelFor="@string/app_name"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
+                android:text="@string/app_name"
+                android:textColor="#585454" />
 
-        <LinearLayout
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_alignParentBottom="true"
+                android:background="#D6D6D6" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="30dp">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
                 android:text="@string/label_tips_02"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/quiet_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:textColor="#585454" />
 
             <TextView
-                android:text="@string/label_tips_03"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/sg_working_time"
-                android:layout_width="0dp"
+                android:id="@+id/quiet_time"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
+                android:textColor="#585454" />
 
-        <LinearLayout
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_alignParentBottom="true"
+                android:background="#D6D6D6" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="30dp">
 
             <TextView
-                android:text="@string/label_tips_04"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/sg_working_times"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/label_tips_03"
+                android:textColor="#585454" />
+
+            <TextView
+                android:id="@+id/sg_working_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
+                android:textColor="#585454" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_alignParentBottom="true"
+                android:background="#D6D6D6" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/label_tips_04"
+                android:textColor="#585454" />
+
+            <TextView
+                android:id="@+id/sg_working_times"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:labelFor="@string/app_name"
+                android:singleLine="true"
+                android:textColor="#585454" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_alignParentBottom="true"
+                android:background="#D6D6D6" />
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -109,98 +141,129 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/section_one_layout"
-        android:layout_marginTop="25dp"
         android:orientation="vertical"
-        android:background="@drawable/settings_bg">
+        android:padding="10dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="30dp">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
                 android:text="@string/label_tips_24"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+                android:textColor="#585454" />
 
-            <EditText
+            <TextView
                 android:id="@+id/sg_status"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
+                android:textColor="#585454" />
 
-        <LinearLayout
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_alignParentBottom="true"
+                android:background="#D6D6D6" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="30dp">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
                 android:text="@string/label_tips_25"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+                android:textColor="#585454" />
 
-            <EditText
+            <TextView
                 android:id="@+id/pump_status"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
+                android:textColor="#585454" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_alignParentBottom="true"
+                android:background="#D6D6D6" />
+        </RelativeLayout>
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="30dp">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
                 android:text="@string/label_tips_20"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/inflated_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:textColor="#585454" />
 
             <TextView
-                android:text="@string/label_tips_23"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/deflate_time"
-                android:layout_width="0dp"
+                android:id="@+id/inflated_time"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
+                android:textColor="#585454" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_alignParentBottom="true"
+                android:background="#D6D6D6" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/label_tips_23"
+                android:textColor="#585454" />
+
+            <TextView
+                android:id="@+id/deflate_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text="@string/app_name"
+                android:textColor="#585454" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_alignParentBottom="true"
+                android:background="#D6D6D6" />
+        </RelativeLayout>
 
     </LinearLayout>
 
