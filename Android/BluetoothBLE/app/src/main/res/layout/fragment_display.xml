@@ -15,7 +15,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_01"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <TextView
                 android:id="@+id/snoring_time"
@@ -34,7 +34,7 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:text="@string/app_name"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <View
                 android:layout_width="match_parent"
@@ -45,7 +45,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_02"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <TextView
                 android:id="@+id/quiet_time"
@@ -64,7 +64,7 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <View
                 android:layout_width="match_parent"
@@ -75,7 +75,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_03"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <TextView
                 android:id="@+id/sg_working_time"
@@ -94,7 +94,7 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <View
                 android:layout_width="match_parent"
@@ -105,7 +105,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -113,7 +113,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_04"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <TextView
                 android:id="@+id/sg_working_times"
@@ -124,7 +124,7 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <View
                 android:layout_width="match_parent"
@@ -142,11 +142,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/section_one_layout"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -154,7 +155,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_24"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <TextView
                 android:id="@+id/sg_status"
@@ -165,7 +166,7 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <View
                 android:layout_width="match_parent"
@@ -176,7 +177,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -184,7 +185,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_25"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <TextView
                 android:id="@+id/pump_status"
@@ -195,7 +196,7 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <View
                 android:layout_width="match_parent"
@@ -207,7 +208,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -215,7 +216,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_20"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <TextView
                 android:id="@+id/inflated_time"
@@ -226,7 +227,7 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <View
                 android:layout_width="match_parent"
@@ -237,7 +238,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="50dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -245,7 +246,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_23"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <TextView
                 android:id="@+id/deflate_time"
@@ -256,7 +257,7 @@
                 android:gravity="right"
                 android:singleLine="true"
                 android:text="@string/app_name"
-                android:textColor="#585454" />
+                android:textColor="#f1a3a0a0" />
 
             <View
                 android:layout_width="match_parent"

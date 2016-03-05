@@ -6,7 +6,6 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dreamfactory.bluetooth.R;
@@ -20,14 +19,14 @@ import de.greenrobot.event.EventBus;
  */
 public class ConfigDisplayFragment extends Fragment {
 
-    private TextView etSnoringTime;
-    private TextView etQuietTime;
-    private TextView etSGWorkingTime;
-    private TextView etSGWorkingTimes;
-    private TextView etSGStatus;
-    private TextView etPumpStatus;
-    private TextView etInflatedTime;
-    private TextView etDeflateTime;
+    private TextView tvSnoringTime;
+    private TextView tvQuietTime;
+    private TextView tvSGWorkingTime;
+    private TextView tvSGWorkingTimes;
+    private TextView tvSGStatus;
+    private TextView tvPumpStatus;
+    private TextView tvInflatedTime;
+    private TextView tvDeflateTime;
 
     public ConfigDisplayFragment() {
         // Required empty public constructor
@@ -56,25 +55,25 @@ public class ConfigDisplayFragment extends Fragment {
     }
 
     private void initViews(View convertView) {
-        etSnoringTime = (TextView) convertView.findViewById(R.id.snoring_time);
-        etQuietTime = (TextView) convertView.findViewById(R.id.quiet_time);
-        etSGWorkingTime = (TextView) convertView.findViewById(R.id.sg_working_time);
-        etSGWorkingTimes = (TextView) convertView.findViewById(R.id.sg_working_times);
-        etSGStatus = (TextView) convertView.findViewById(R.id.sg_status);
-        etPumpStatus = (TextView) convertView.findViewById(R.id.pump_status);
-        etInflatedTime = (TextView) convertView.findViewById(R.id.inflated_time);
-        etDeflateTime = (TextView) convertView.findViewById(R.id.deflate_time);
+        tvSnoringTime = (TextView) convertView.findViewById(R.id.snoring_time);
+        tvQuietTime = (TextView) convertView.findViewById(R.id.quiet_time);
+        tvSGWorkingTime = (TextView) convertView.findViewById(R.id.sg_working_time);
+        tvSGWorkingTimes = (TextView) convertView.findViewById(R.id.sg_working_times);
+        tvSGStatus = (TextView) convertView.findViewById(R.id.sg_status);
+        tvPumpStatus = (TextView) convertView.findViewById(R.id.pump_status);
+        tvInflatedTime = (TextView) convertView.findViewById(R.id.inflated_time);
+        tvDeflateTime = (TextView) convertView.findViewById(R.id.deflate_time);
     }
 
     public void display(BluetoothReadableSetting setting) {
-        etSnoringTime.setText("" + setting.getSnoringTime());
-        etQuietTime.setText("" + setting.getQuietTime());
-        etSGWorkingTime.setText("" + setting.getSgWorkingTime());
-        etSGWorkingTimes.setText("" + setting.getSgWorkingTimes());
-        etSGStatus.setText("" + setting.getSgStatus());
-        etPumpStatus.setText("" + setting.getPumpStatus());
-        etInflatedTime.setText("" + setting.getInflatedTime());
-        etDeflateTime.setText("" + setting.getDeflateTime());
+        tvSnoringTime.setText("" + setting.getSnoringTime());
+        tvQuietTime.setText("" + setting.getQuietTime());
+        tvSGWorkingTime.setText("" + setting.getSgWorkingTime());
+        tvSGWorkingTimes.setText("" + setting.getSgWorkingTimes());
+        tvSGStatus.setText("" + setting.getSgStatus());
+        tvPumpStatus.setText("" + setting.getPumpStatus());
+        tvInflatedTime.setText("" + setting.getInflatedTime());
+        tvDeflateTime.setText("" + setting.getDeflateTime());
     }
 
     public void onEventMainThread(ReadableSettingEvent event) {
