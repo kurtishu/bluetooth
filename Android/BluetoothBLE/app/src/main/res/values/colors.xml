@@ -7,4 +7,7 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
 
+    <color name="setting_font_text">#f1a3a0a0</color>
+    <color name="setting_line">#D6D6D6</color>
+
 </resources>

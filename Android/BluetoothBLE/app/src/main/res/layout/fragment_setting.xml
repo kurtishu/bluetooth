@@ -8,8 +8,7 @@
         android:id="@+id/section_one_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/settings_bg">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -132,8 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/section_one_layout"
         android:layout_marginTop="25dp"
-        android:orientation="vertical"
-        android:background="@drawable/settings_bg">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"

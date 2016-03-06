@@ -1,17 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".view.fragment.ConfigSettingFragment">
-
-    <LinearLayout
-        android:id="@+id/section_one_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,7 +18,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_01"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <TextView
                 android:id="@+id/snoring_time"
@@ -34,13 +29,13 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:text="@string/app_name"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
                 android:layout_alignParentBottom="true"
-                android:background="#D6D6D6" />
+                android:background="@color/setting_line" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -53,7 +48,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_02"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <TextView
                 android:id="@+id/quiet_time"
@@ -64,13 +59,13 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
                 android:layout_alignParentBottom="true"
-                android:background="#D6D6D6" />
+                android:background="@color/setting_line" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -83,7 +78,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_03"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <TextView
                 android:id="@+id/sg_working_time"
@@ -94,13 +89,13 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
                 android:layout_alignParentBottom="true"
-                android:background="#D6D6D6" />
+                android:background="@color/setting_line" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -113,7 +108,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_04"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <TextView
                 android:id="@+id/sg_working_times"
@@ -124,26 +119,14 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
                 android:layout_alignParentBottom="true"
-                android:background="#D6D6D6" />
+                android:background="@color/setting_line" />
         </RelativeLayout>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/section_two_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/section_one_layout"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -155,7 +138,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_24"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <TextView
                 android:id="@+id/sg_status"
@@ -166,13 +149,13 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
                 android:layout_alignParentBottom="true"
-                android:background="#D6D6D6" />
+                android:background="@color/setting_line" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -185,7 +168,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_25"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <TextView
                 android:id="@+id/pump_status"
@@ -196,13 +179,13 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
                 android:layout_alignParentBottom="true"
-                android:background="#D6D6D6" />
+                android:background="@color/setting_line" />
         </RelativeLayout>
 
 
@@ -216,7 +199,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_20"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <TextView
                 android:id="@+id/inflated_time"
@@ -227,13 +210,13 @@
                 android:gravity="right"
                 android:labelFor="@string/app_name"
                 android:singleLine="true"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
                 android:layout_alignParentBottom="true"
-                android:background="#D6D6D6" />
+                android:background="@color/setting_line" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -246,7 +229,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/label_tips_23"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <TextView
                 android:id="@+id/deflate_time"
@@ -257,15 +240,12 @@
                 android:gravity="right"
                 android:singleLine="true"
                 android:text="@string/app_name"
-                android:textColor="#f1a3a0a0" />
+                android:textColor="@color/setting_font_text" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.2dp"
                 android:layout_alignParentBottom="true"
-                android:background="#D6D6D6" />
+                android:background="@color/setting_line" />
         </RelativeLayout>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>
