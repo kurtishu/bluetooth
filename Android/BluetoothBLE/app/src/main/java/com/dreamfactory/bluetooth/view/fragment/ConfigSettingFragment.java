@@ -133,11 +133,11 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
         setting.setEndTimingMis(PreferenceUtil.getIntValue("end_timming_m"));
         setting.setInflatedTime(PreferenceUtil.getIntValue("inflated_time"));
         setting.setDeflatedTime(PreferenceUtil.getIntValue("deflated_time"));
-        setting.setWokingTime(PreferenceUtil.getIntValue("working_threshold"));
-        setting.setWorkingThreshold(PreferenceUtil.getIntValue("working_time"));
+        setting.setWokingTime(PreferenceUtil.getIntValue("working_time"));
+        setting.setWorkingThreshold(PreferenceUtil.getIntValue("working_threshold"));
         setting.setDegree(PreferenceUtil.getIntValue("degree"));
-        setting.setResetData(PreferenceUtil.getIntValue("reset"));
-        setting.setRestDevice(PreferenceUtil.getIntValue("reset_data"));
+        setting.setResetData(PreferenceUtil.getIntValue("reset_data"));
+        setting.setRestDevice(PreferenceUtil.getIntValue("reset"));
         setting.setClearData(PreferenceUtil.getIntValue("clear_data"));
 
         EventBus.getDefault().post(new WriteableSettingEvent(setting));

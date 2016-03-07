@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
 import com.dreamfactory.bluetooth.R;
+import com.dreamfactory.bluetooth.ble.SampleGattAttributes;
 import com.dreamfactory.bluetooth.event.SelectCharacteristicEvent;
 import com.dreamfactory.bluetooth.view.SettingActivity;
 import com.dreamfactory.bluetooth.view.adapter.base.ViewHolder;
@@ -76,9 +77,7 @@ public class ServicesExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         final BluetoothGattService service = getGroup(groupPosition);
         ViewHolder viewHolder = ViewHolder.get(convertView, parent, groupPosition, R.layout.layout_item_group, inflater);
-        viewHolder.setText(R.id.section_header_text,
-                service.getType() == BluetoothGattService.SERVICE_TYPE_PRIMARY
-                        ? "SERVICE_TYPE_PRIMARY" : "SERVICE_TYPE_SECONDARY");
+        viewHolder.setText(R.id.section_header_text, SampleGattAttributes.lookup(service.getUuid().toString(), "unknow service"));
         viewHolder.setText(R.id.sub_textview, service.getUuid().toString());
         return viewHolder.getConvertView();
     }
