@@ -17,6 +17,9 @@
 #include <string.h>
 #include <android/log.h>
 
+#define  LOG_TAG  "System.out"
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG,  __VA_ARGS__)
+#define LOGINFO(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG,  __VA_ARGS__)
 
 /*********************************************************************
  * CONSTANTS
@@ -64,7 +67,7 @@ unsigned char CRC8Table[256]   =   {
 };
 
 jint ReadIndexArr[]  = {0,1,2,3,40,41,63,64};
-jint WriteIndexArr[] = {5,6,7,8,9,10,11,12,13,14,60,61,62};
+jint WriteIndexArr[] = {10,11,12,13,14, 5,6,7,8,9, 60,61,62};
 
 /*********************************************************************
  * LOCAL FUNCTIONS
@@ -159,9 +162,11 @@ JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConv
     jbyteArray dat = (*env)->NewByteArray(env, WRITE_INDEX_LEN*2+4);
     jbyte *datPtr = (*env)->GetByteArrayElements(env, dat, 0 );     //获得byte数组指针
 
+/*
     datPtr[0] = 0x01;                       //从设备id
     datPtr[1] = 0x04;                       //随机写操作
     datPtr[2] = WRITE_INDEX_LEN*2;          //写数据长度
+
 
     for (i = 0; i <WRITE_INDEX_LEN; ++i)
         datPtr[3+i]   = WriteIndexArr[i];   //写入地址
@@ -170,12 +175,31 @@ JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConv
     {
         lowbyte   = arrPtr[i] & 0xFF;           //取int数值的低字节
         datPtr[3+WRITE_INDEX_LEN+i] = lowbyte;  //写入数据
+    }*/
+
+    /*
+    for (i = 0; i <WRITE_INDEX_LEN; ++i)
+    {
+        datPtr[3+i] = arrPtr[i] | 0xff;  //写入数据
     }
 
-    datPtr[2*WRITE_INDEX_LEN+3] = CrcSum( datPtr, 2*WRITE_INDEX_LEN+3 );    //crc检验值
+    for (i = 0; i <WRITE_INDEX_LEN; ++i)
+    {
+        lowbyte   = arrPtr[i] & 0xFF;           //取int数值的低字节
+        datPtr[3+WRITE_INDEX_LEN+i] = lowbyte;  //写入数据
+    }
 
+
+    datPtr[2*WRITE_INDEX_LEN+3] = CrcSum( datPtr, 2*WRITE_INDEX_LEN+3 );    //crc检验值*/
+
+
+    for (i = 0; i <WRITE_INDEX_LEN ; ++i) {
+
+        datPtr[i] = i;
+    }
     (*env)->ReleaseIntArrayElements(env, array, arrPtr, 0);                 //释放int数组指针
     (*env)->ReleaseByteArrayElements(env, dat, datPtr, 0);                  //释放byte数组指针
+
 
     return dat;
 }
@@ -193,7 +217,7 @@ JNIEXPORT jint JNICALL Java_com_dreamfactory_library_convert_BluetoothConvert_de
 
     arrPtr = (*env)->GetByteArrayElements(env, array, 0);            //传入byte数组指针
     if( arrPtr == NULL )
-        return NULL;
+        return -1;
 
     crcSum = CrcSum( arrPtr, 3 );
 
