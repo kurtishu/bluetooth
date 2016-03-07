@@ -17,6 +17,10 @@
 #include <string.h>
 #include <android/log.h>
 
+#ifndef LOG_TAG
+#define LOG_TAG "ANDROID_LAB"
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#endif
 
 /*********************************************************************
  * CONSTANTS
@@ -84,6 +88,7 @@ jbyte CrcSum(const jbyte *crcData, jbyte crcDataLen);
  */
 JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConvert_encapsulateShowData
         (JNIEnv * env, jclass obj) {
+    LOGE("log string from ndk.");
     //新添加代码
     jbyte i;
 
