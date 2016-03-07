@@ -17,9 +17,10 @@
 #include <string.h>
 #include <android/log.h>
 
-#define  LOG_TAG  "System.out"
-#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG,  __VA_ARGS__)
-#define LOGINFO(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG,  __VA_ARGS__)
+#ifndef LOG_TAG
+#define LOG_TAG "ANDROID_LAB"
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#endif
 
 /*********************************************************************
  * CONSTANTS
@@ -87,6 +88,7 @@ jbyte CrcSum(const jbyte *crcData, jbyte crcDataLen);
  */
 JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConvert_encapsulateShowData
         (JNIEnv * env, jclass obj) {
+    LOGE("log string from ndk.");
     //新添加代码
     jbyte i;
 
@@ -159,10 +161,16 @@ JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConv
     if( arrPtr == NULL )    //没有写入的数据
         return NULL;
 
+    LOGE("Setting data:");
+    for (i = 0; i <WRITE_INDEX_LEN ; ++i) {
+
+        LOGE("%d",arrPtr[i]);
+    }
+
     jbyteArray dat = (*env)->NewByteArray(env, WRITE_INDEX_LEN*2+4);
     jbyte *datPtr = (*env)->GetByteArrayElements(env, dat, 0 );     //获得byte数组指针
 
-/*
+
     datPtr[0] = 0x01;                       //从设备id
     datPtr[1] = 0x04;                       //随机写操作
     datPtr[2] = WRITE_INDEX_LEN*2;          //写数据长度
@@ -171,32 +179,25 @@ JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConv
     for (i = 0; i <WRITE_INDEX_LEN; ++i)
         datPtr[3+i]   = WriteIndexArr[i];   //写入地址
 
+    LOGE("Low byte");
     for (i = 0; i <WRITE_INDEX_LEN; ++i)
     {
         lowbyte   = arrPtr[i] & 0xFF;           //取int数值的低字节
         datPtr[3+WRITE_INDEX_LEN+i] = lowbyte;  //写入数据
-    }*/
-
-    /*
-    for (i = 0; i <WRITE_INDEX_LEN; ++i)
-    {
-        datPtr[3+i] = arrPtr[i] | 0xff;  //写入数据
+        LOGE("%d",lowbyte);
     }
 
-    for (i = 0; i <WRITE_INDEX_LEN; ++i)
-    {
-        lowbyte   = arrPtr[i] & 0xFF;           //取int数值的低字节
-        datPtr[3+WRITE_INDEX_LEN+i] = lowbyte;  //写入数据
+    datPtr[2*WRITE_INDEX_LEN+3] = CrcSum( datPtr, 2*WRITE_INDEX_LEN+3 );    //crc检验值
+
+    LOGE("data---");
+    for (i = 0; i <WRITE_INDEX_LEN*2+3 ; ++i) {
+
+        LOGE("%d",datPtr[i]);
     }
 
 
-    datPtr[2*WRITE_INDEX_LEN+3] = CrcSum( datPtr, 2*WRITE_INDEX_LEN+3 );    //crc检验值*/
 
 
-    for (i = 0; i <WRITE_INDEX_LEN ; ++i) {
-
-        datPtr[i] = i;
-    }
     (*env)->ReleaseIntArrayElements(env, array, arrPtr, 0);                 //释放int数组指针
     (*env)->ReleaseByteArrayElements(env, dat, datPtr, 0);                  //释放byte数组指针
 
