@@ -1,34 +1,45 @@
 package com.dreamfactory.bluetooth.view.fragment;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.dreamfactory.bluetooth.R;
 import com.dreamfactory.bluetooth.event.WriteableSettingEvent;
+import com.dreamfactory.bluetooth.util.LogUtil;
 import com.dreamfactory.bluetooth.util.PreferenceUtil;
+import com.dreamfactory.bluetooth.wedigt.WheelView;
 import com.dreamfactory.library.model.BluetoothWriteableSetting;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
-public class ConfigSettingFragment extends Fragment {
+public class ConfigSettingFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
-    private EditText etTimingSetting;
-    private EditText etStartTimingHour;
-    private EditText etStartTimingMis;
-    private EditText etEndTimingHour;
-    private EditText etEndTimingMis;
-    private EditText etInflatedTime;
-    private EditText etDeflatedTime;
-    private EditText etWorkingThreshold;
-    private EditText etDegree;
-    private EditText etWokingTime;
-    private EditText etRestDevice;
-    private EditText etResetData;
-    private EditText etClearData;
+    private Switch etTimingSetting;
+    private TextView etStartTimingHour;
+    private TextView etStartTimingMis;
+    private TextView etEndTimingHour;
+    private TextView etEndTimingMis;
+    private TextView etInflatedTime;
+    private TextView etDeflatedTime;
+    private TextView etWorkingThreshold;
+    private TextView etDegree;
+    private TextView etWokingTime;
+    private Switch etRestDevice;
+    private Switch etResetData;
+    private Switch etClearData;
 
 
     public ConfigSettingFragment() {
@@ -68,67 +79,181 @@ public class ConfigSettingFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        etTimingSetting = (EditText) view.findViewById(R.id.timming_setting);
-        etStartTimingHour = (EditText) view.findViewById(R.id.start_timming_h);
-        etStartTimingMis = (EditText) view.findViewById(R.id.start_timming_m);
-        etEndTimingHour = (EditText) view.findViewById(R.id.end_timming_h);
-        etEndTimingMis = (EditText) view.findViewById(R.id.end_timming_m);
-        etInflatedTime = (EditText) view.findViewById(R.id.inflated_time);
-        etDeflatedTime = (EditText) view.findViewById(R.id.deflate_time);
-        etWorkingThreshold = (EditText) view.findViewById(R.id.working_threshold);
-        etWokingTime = (EditText) view.findViewById(R.id.woking_time);
-        etRestDevice = (EditText) view.findViewById(R.id.reset);
-        etResetData = (EditText) view.findViewById(R.id.reset_data);
-        etDegree = (EditText) view.findViewById(R.id.degree);
-        etClearData = (EditText) view.findViewById(R.id.clear_data);
+        etTimingSetting = (Switch) view.findViewById(R.id.timming_setting);
+        etStartTimingHour = (TextView) view.findViewById(R.id.start_timming_h);
+        etStartTimingMis = (TextView) view.findViewById(R.id.start_timming_m);
+        etEndTimingHour = (TextView) view.findViewById(R.id.end_timming_h);
+        etEndTimingMis = (TextView) view.findViewById(R.id.end_timming_m);
+        etInflatedTime = (TextView) view.findViewById(R.id.inflated_time);
+        etDeflatedTime = (TextView) view.findViewById(R.id.deflate_time);
+        etWorkingThreshold = (TextView) view.findViewById(R.id.working_threshold);
+        etWokingTime = (TextView) view.findViewById(R.id.woking_time);
+        etRestDevice = (Switch) view.findViewById(R.id.reset);
+        etResetData = (Switch) view.findViewById(R.id.reset_data);
+        etDegree = (TextView) view.findViewById(R.id.degree);
+        etClearData = (Switch) view.findViewById(R.id.clear_data);
 
-        etTimingSetting.setText(String.valueOf(PreferenceUtil.getIntValue("timming_setting")));
+        etTimingSetting.setChecked(PreferenceUtil.getIntValue("timming_setting") == 1);
         etStartTimingHour.setText(String.valueOf(PreferenceUtil.getIntValue("start_timming_h")));
         etStartTimingMis.setText(String.valueOf(PreferenceUtil.getIntValue("start_timming_m")));
         etEndTimingHour.setText(String.valueOf(PreferenceUtil.getIntValue("end_timming_h")));
         etEndTimingMis.setText(String.valueOf(PreferenceUtil.getIntValue("end_timming_m")));
         etInflatedTime.setText(String.valueOf(PreferenceUtil.getIntValue("inflated_time")));
-        etDeflatedTime.setText(String.valueOf(PreferenceUtil.getIntValue("deflate_time")));
+        etDeflatedTime.setText(String.valueOf(PreferenceUtil.getIntValue("deflated_time")));
         etWorkingThreshold.setText(String.valueOf(PreferenceUtil.getIntValue("working_threshold")));
         etWokingTime.setText(String.valueOf(PreferenceUtil.getIntValue("working_time")));
-        etRestDevice.setText(String.valueOf(PreferenceUtil.getIntValue("reset")));
-        etResetData.setText(String.valueOf(PreferenceUtil.getIntValue("reset_data")));
         etDegree.setText(String.valueOf(PreferenceUtil.getIntValue("degree")));
-        etClearData.setText(String.valueOf(PreferenceUtil.getIntValue("clear_data")));
+        etRestDevice.setChecked(PreferenceUtil.getIntValue("reset") == 1);
+        etResetData.setChecked(PreferenceUtil.getIntValue("reset_data") == 1);
+        etClearData.setChecked(PreferenceUtil.getIntValue("clear_data") == 1);
+
+        etStartTimingHour.setOnClickListener(this);
+        etStartTimingMis.setOnClickListener(this);
+        etEndTimingHour.setOnClickListener(this);
+        etEndTimingMis.setOnClickListener(this);
+        etInflatedTime.setOnClickListener(this);
+        etDeflatedTime.setOnClickListener(this);
+        etWorkingThreshold.setOnClickListener(this);
+        etWokingTime.setOnClickListener(this);
+        etDegree.setOnClickListener(this);
+
+        etTimingSetting.setOnCheckedChangeListener(this);
+        etRestDevice.setOnCheckedChangeListener(this);
+        etResetData.setOnCheckedChangeListener(this);
+        etClearData.setOnCheckedChangeListener(this);
     }
 
 
     public void writeSettings() {
         BluetoothWriteableSetting setting = new BluetoothWriteableSetting();
-        setting.setTimingSetting(Integer.parseInt(etTimingSetting.getText().toString()));
-        setting.setStartTimingHour(Integer.parseInt(etStartTimingHour.getText().toString()));
-        setting.setStartTimingMis(Integer.parseInt(etStartTimingMis.getText().toString()));
-        setting.setEndTimingHour(Integer.parseInt(etEndTimingHour.getText().toString()));
-        setting.setEndTimingMis(Integer.parseInt(etEndTimingMis.getText().toString()));
-        setting.setInflatedTime(Integer.parseInt(etInflatedTime.getText().toString()));
-        setting.setDeflatedTime(Integer.parseInt(etDeflatedTime.getText().toString()));
-        setting.setWokingTime(Integer.parseInt(etWokingTime.getText().toString()));
-        setting.setWorkingThreshold(Integer.parseInt(etWorkingThreshold.getText().toString()));
-        setting.setResetData(Integer.parseInt(etResetData.getText().toString()));
-        setting.setRestDevice(Integer.parseInt(etRestDevice.getText().toString()));
-        setting.setDegree(Integer.parseInt(etDegree.getText().toString()));
-        setting.setClearData(Integer.parseInt(etClearData.getText().toString()));
+        setting.setTimingSetting(PreferenceUtil.getIntValue("timming_setting"));
+        setting.setStartTimingHour(PreferenceUtil.getIntValue("start_timming_h"));
+        setting.setStartTimingMis(PreferenceUtil.getIntValue("start_timming_m"));
+        setting.setEndTimingHour(PreferenceUtil.getIntValue("end_timming_h"));
+        setting.setEndTimingMis(PreferenceUtil.getIntValue("end_timming_m"));
+        setting.setInflatedTime(PreferenceUtil.getIntValue("inflated_time"));
+        setting.setDeflatedTime(PreferenceUtil.getIntValue("deflated_time"));
+        setting.setWokingTime(PreferenceUtil.getIntValue("working_threshold"));
+        setting.setWorkingThreshold(PreferenceUtil.getIntValue("working_time"));
+        setting.setDegree(PreferenceUtil.getIntValue("degree"));
+        setting.setResetData(PreferenceUtil.getIntValue("reset"));
+        setting.setRestDevice(PreferenceUtil.getIntValue("reset_data"));
+        setting.setClearData(PreferenceUtil.getIntValue("clear_data"));
 
         EventBus.getDefault().post(new WriteableSettingEvent(setting));
+    }
 
-        PreferenceUtil.setIntValue("timming_setting", setting.getTimingSetting());
-        PreferenceUtil.setIntValue("start_timming_h", setting.getStartTimingHour());
-        PreferenceUtil.setIntValue("start_timming_m", setting.getStartTimingMis());
-        PreferenceUtil.setIntValue("end_timming_h", setting.getEndTimingHour());
-        PreferenceUtil.setIntValue("end_timming_m", setting.getEndTimingMis());
-        PreferenceUtil.setIntValue("inflated_time", setting.getInflatedTime());
-        PreferenceUtil.setIntValue("deflate_time", setting.getDeflatedTime());
-        PreferenceUtil.setIntValue("working_threshold", setting.getWorkingThreshold());
-        PreferenceUtil.setIntValue("working_time", setting.getWokingTime());
-        PreferenceUtil.setIntValue("reset", setting.getRestDevice());
-        PreferenceUtil.setIntValue("reset_data", setting.getResetData());
-        PreferenceUtil.setIntValue("degree", setting.getDegree());
-        PreferenceUtil.setIntValue("clear_data", setting.getClearData());
+    private void showAlert(String title, List<String> items, final String key) {
 
+        View outerView = LayoutInflater.from(getActivity()).inflate(R.layout.wheel_view, null);
+        WheelView wv = (WheelView) outerView.findViewById(R.id.wheel_view);
+        wv.setOffset(2);
+        wv.setItems(items);
+        wv.setSeletion(3);
+        wv.setOnWheelViewListener(new WheelView.OnWheelViewListener() {
+            @Override
+            public void onSelected(int selectedIndex, String item) {
+                LogUtil.d("Kurtis", "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
+                setSelectedValue(key, selectedIndex, item);
+            }
+        });
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle(title)
+                .setView(outerView)
+                .setPositiveButton("OK", null)
+                .show();
+    }
+
+    private void showAlert(String title, int maxLimit, final String key) {
+        List<String> items = new ArrayList<>();
+        for (int i = 0 ; i < maxLimit; i ++) {
+            items.add("" + i);
+        }
+
+        showAlert(title, items, key);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+      switch (v.getId()) {
+          case R.id.start_timming_h:
+              showAlert("请设置开始时间(时)", 24, "start_timming_h");
+              break;
+          case R.id.start_timming_m:
+              showAlert("请设置开始时间(分)", 60, "start_timming_m");
+              break;
+          case R.id.end_timming_h:
+              showAlert("请设置结束时间(时)", 24, "end_timming_h");
+              break;
+          case R.id.end_timming_m:
+              showAlert("请设置结束时间(分)", 60, "end_timming_m");
+              break;
+          case R.id.inflated_time:
+              showAlert("请设置充气时间", 100, "inflated_time");
+              break;
+          case R.id.deflate_time:
+              showAlert("请设置放气时间", 100, "deflated_time");
+              break;
+          case R.id.working_threshold:
+              showAlert("请设置工作阀值", 255, "working_threshold");
+              break;
+          case R.id.woking_time:
+              showAlert("请设置工作耗时", 10, "working_time");
+              break;
+          case R.id.degree:
+              showAlert("请设置软硬程度", 3, "degree");
+              break;
+      }
+    }
+
+    private void setSelectedValue(String key, int selectedIndex, String item) {
+        if ("start_timming_h".equals(key)) {
+            etStartTimingHour.setText(item);
+            PreferenceUtil.setIntValue(key, selectedIndex);
+        } else if ("start_timming_m".equals(key)) {
+            etStartTimingMis.setText(item);
+            PreferenceUtil.setIntValue(key, selectedIndex);
+        } else if ("end_timming_h".equals(key)) {
+            etEndTimingHour.setText(item);
+            PreferenceUtil.setIntValue(key, selectedIndex);
+        } else if ("end_timming_m".equals(key)) {
+            etEndTimingMis.setText(item);
+            PreferenceUtil.setIntValue(key, selectedIndex);
+        } else if ("inflated_time".equals(key)) {
+            etInflatedTime.setText(item);
+            PreferenceUtil.setIntValue(key, selectedIndex);
+        } else if ("deflated_time".equals(key)) {
+            etDeflatedTime.setText(item);
+            PreferenceUtil.setIntValue(key, selectedIndex);
+        } else if ("working_threshold".equals(key)) {
+            etWorkingThreshold.setText(item);
+            PreferenceUtil.setIntValue(key, selectedIndex);
+        } else if ("working_time".equals(key)) {
+            etWokingTime.setText(item);
+            PreferenceUtil.setIntValue(key, selectedIndex);
+        } else if ("degree".equals(key)) {
+            etDegree.setText(item);
+            PreferenceUtil.setIntValue(key, selectedIndex);
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.timming_setting:
+                PreferenceUtil.setIntValue("timming_setting", isChecked ? 1 : 0 );
+                break;
+            case  R.id.reset:
+                PreferenceUtil.setIntValue("reset", isChecked ? 1 : 0 );
+                break;
+            case R.id.reset_data:
+                PreferenceUtil.setIntValue("reset_data", isChecked ? 1 : 0 );
+                break;
+            case R.id.clear_data:
+                PreferenceUtil.setIntValue("clear_data", isChecked ? 1 : 0 );
+                break;
+        }
     }
 }

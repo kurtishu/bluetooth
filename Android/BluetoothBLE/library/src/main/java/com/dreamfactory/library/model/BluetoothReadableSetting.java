@@ -27,16 +27,16 @@ public class BluetoothReadableSetting {
     private int deflateTime;
 
 
-    public int getSnoringTime() {
-        return snoringTime;
+    public String getSnoringTime() {
+        return snoringTime + "%";
     }
 
     public void setSnoringTime(int snoringTime) {
         this.snoringTime = snoringTime;
     }
 
-    public int getQuietTime() {
-        return quietTime;
+    public String getQuietTime() {
+        return quietTime + "%";
     }
 
     public void setQuietTime(int quietTime) {
@@ -51,24 +51,31 @@ public class BluetoothReadableSetting {
         this.sgWorkingTime = sgWorkingTime;
     }
 
-    public int getSgWorkingTimes() {
-        return sgWorkingTimes;
+    public String getSgWorkingTimes() {
+        return sgWorkingTimes + "次";
     }
 
     public void setSgWorkingTimes(int sgWorkingTimes) {
         this.sgWorkingTimes = sgWorkingTimes;
     }
 
-    public int getSgStatus() {
-        return sgStatus;
+    public String getSgStatus() {
+        return sgStatus == 0 ? "异常" : "正常";
     }
 
     public void setSgStatus(int sgStatus) {
         this.sgStatus = sgStatus;
     }
 
-    public int getPumpStatus() {
-        return pumpStatus;
+    public String getPumpStatus() {
+        if (pumpStatus == 0) {
+            return "停止";
+        } else if (pumpStatus == 1) {
+            return "充气";
+        } else if (pumpStatus == 2) {
+            return "放气";
+        }
+        return pumpStatus + "";
     }
 
     public void setPumpStatus(int pumpStatus) {

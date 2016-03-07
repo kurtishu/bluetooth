@@ -66,12 +66,12 @@ public class ConfigDisplayFragment extends Fragment {
     }
 
     public void display(BluetoothReadableSetting setting) {
-        tvSnoringTime.setText("" + setting.getSnoringTime());
-        tvQuietTime.setText("" + setting.getQuietTime());
+        tvSnoringTime.setText(setting.getSnoringTime());
+        tvQuietTime.setText(setting.getQuietTime());
         tvSGWorkingTime.setText("" + setting.getSgWorkingTime());
-        tvSGWorkingTimes.setText("" + setting.getSgWorkingTimes());
-        tvSGStatus.setText("" + setting.getSgStatus());
-        tvPumpStatus.setText("" + setting.getPumpStatus());
+        tvSGWorkingTimes.setText(setting.getSgWorkingTimes());
+        tvSGStatus.setText(setting.getSgStatus());
+        tvPumpStatus.setText(setting.getPumpStatus());
         tvInflatedTime.setText("" + setting.getInflatedTime());
         tvDeflateTime.setText("" + setting.getDeflateTime());
     }

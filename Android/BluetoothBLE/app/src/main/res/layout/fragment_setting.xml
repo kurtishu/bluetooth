@@ -1,314 +1,399 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".view.fragment.ConfigSettingFragment">
-
-    <LinearLayout
-        android:id="@+id/section_one_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              tools:context=".view.fragment.ConfigSettingFragment">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="50dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_13"
+            android:textColor="@color/setting_font_text" />
 
-            <TextView
-                android:text="@string/label_tips_13"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+        <Switch
+            android:layout_alignParentRight="true"
+            android:id="@+id/timming_setting"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"/>
 
-            <EditText
-                android:id="@+id/timming_setting"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:labelFor="@string/app_name"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
 
-            <TextView
-                android:text="@string/label_tips_14"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/start_timming_h"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:text="@string/label_tips_15"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/start_timming_m"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:labelFor="@string/app_name"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:text="@string/label_tips_16"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/end_timming_h"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:text="@string/label_tips_17"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/end_timming_m"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/section_two_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/section_one_layout"
-        android:layout_marginTop="25dp"
-        android:orientation="vertical">
+        android:layout_height="50dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_14"
+            android:textColor="@color/setting_font_text" />
 
-            <TextView
-                android:text="@string/label_tips_05"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/inflated_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/start_timming_h"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:textColor="@color/setting_font_text"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/ic_navigate_next"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:singleLine="true"/>
 
-            <TextView
-                android:text="@string/label_tips_06"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/deflate_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_15"
+            android:textColor="@color/setting_font_text" />
 
-            <TextView
-                android:text="@string/label_tips_07"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/start_timming_m"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/setting_font_text"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/ic_navigate_next"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:singleLine="true"/>
 
-            <EditText
-                android:id="@+id/working_threshold"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_16"
+            android:textColor="@color/setting_font_text" />
 
-            <TextView
-                android:text="@string/label_tips_08"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/end_timming_h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/setting_font_text"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/ic_navigate_next"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:singleLine="true"/>
 
-            <EditText
-                android:id="@+id/degree"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_17"
+            android:textColor="@color/setting_font_text" />
 
-            <TextView
-                android:text="@string/label_tips_09"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/end_timming_m"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/setting_font_text"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/ic_navigate_next"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:singleLine="true"/>
 
-            <EditText
-                android:id="@+id/woking_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_05"
+            android:textColor="@color/setting_font_text" />
 
-            <TextView
-                android:text="@string/label_tips_10"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/inflated_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/setting_font_text"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/ic_navigate_next"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:singleLine="true"/>
 
-            <EditText
-                android:id="@+id/reset"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_06"
+            android:textColor="@color/setting_font_text" />
 
-            <TextView
-                android:text="@string/label_tips_11"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/deflate_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/setting_font_text"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/ic_navigate_next"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:singleLine="true"/>
 
-            <EditText
-                android:id="@+id/reset_data"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionNext"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
-
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_07"
+            android:textColor="@color/setting_font_text" />
 
-            <TextView
-                android:text="@string/label_tips_12"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/working_threshold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/setting_font_text"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/ic_navigate_next"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:singleLine="true"/>
 
-            <EditText
-                android:id="@+id/clear_data"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:inputType="numberDecimal"
-                android:imeOptions="actionDone"
-                android:layout_weight="0.5"/>
-        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
 
-    </LinearLayout>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_08"
+            android:textColor="@color/setting_font_text" />
+
+        <TextView
+            android:id="@+id/degree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/setting_font_text"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/ic_navigate_next"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:singleLine="true"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_09"
+            android:textColor="@color/setting_font_text" />
+
+        <TextView
+            android:id="@+id/woking_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/setting_font_text"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/ic_navigate_next"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:singleLine="true"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_10"
+            android:textColor="@color/setting_font_text" />
+
+        <Switch
+            android:layout_alignParentRight="true"
+            android:id="@+id/reset"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_11"
+            android:textColor="@color/setting_font_text" />
+
+        <Switch
+            android:layout_alignParentRight="true"
+            android:id="@+id/reset_data"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/label_tips_12"
+            android:textColor="@color/setting_font_text" />
+
+        <Switch
+            android:layout_alignParentRight="true"
+            android:id="@+id/clear_data"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/setting_line" />
+    </RelativeLayout>
+
+</LinearLayout>
