@@ -12,6 +12,9 @@ import com.dreamfactory.library.model.BluetoothWriteableSetting;
  */
 public class BluetoothSettingManager {
 
+    private static int READ_INDEX_LEN  = 8;     //显示界面数据长度
+    private static int WRITE_INDEX_LEN = 13;    //设置界面数据长度
+
     static {
         System.loadLibrary("BluetoothLib");
     }
@@ -50,21 +53,26 @@ public class BluetoothSettingManager {
     public BluetoothReadableSetting getReadableSetting(byte[] array) {
 
         // 解析返回数据，现在返回的是 1 2， 然后把返回的数据封装成 BluetoothReadableSetting对象
+        BluetoothReadableSetting setting = null;
         int[] result = BluetoothConvert.decapsulateShowData(array);
+
         for (int res : result) {
             Log.i("Kurtis", "getReadableSetting:" + res);
         }
 
-        //  返回一个对象，现在是mock的数据， 以后要换成实际的数据
-        BluetoothReadableSetting setting = new BluetoothReadableSetting();
-        setting.setSnoringTime(1);
-        setting.setSgWorkingTime(2);
-        setting.setSgWorkingTimes(3);
-        setting.setInflatedTime(4);
-        setting.setDeflateTime(5);
-        setting.setPumpStatus(6);
-        setting.setQuietTime(7);
-        setting.setSgStatus(8);
+        if ( array  != null || !array.equals("") ) {
+            //  返回一个对象，现在是mock的数据， 以后要换成实际的数据
+            setting = new BluetoothReadableSetting();
+
+            setting.setSnoringTime(result[0]);          //打鼾时间
+            setting.setQuietTime(result[1]);            //安静时间
+            setting.setSgWorkingTime(result[2]);        //SG工作时间
+            setting.setSgWorkingTimes(result[3]);       //SG工作次数
+            setting.setSgStatus(result[4]);             //SG状态
+            setting.setPumpStatus(result[5]);           //泵状态
+            setting.setInflatedTime(result[6]);         //充气时间
+            setting.setDeflateTime(result[7]);          //放气时间
+        }
 
         return setting;
     }
@@ -77,12 +85,21 @@ public class BluetoothSettingManager {
      * @return NULL， 准备的数据不正确；否则为经过封装的数据，可以直接的通过蓝牙发送。
      */
     public byte[] getWriteableData(BluetoothWriteableSetting setting) {
-        //获取 BluetoothWriteableSetting 对象里的属性 比如
-        int array[] = new int[13];
-        array[0] = setting.getTimingSetting();
-        // array[1]...
-        // 按照要求 赋值
+        int array[] = new int[WRITE_INDEX_LEN];
 
+        array[0] = setting.getTimingSetting();      //定时时间设置
+        array[1] = setting.getStartTimingHour();    //定时开始时间(小时)
+        array[2] = setting.getStartTimingMis();     //定时开始时间(分钟)
+        array[3] = setting.getEndTimingHour();      //定时结束时间(小时)
+        array[4] = setting.getEndTimingMis();       //定时结束时间(分钟)
+        array[5] = setting.getInflatedTime();       //充气时间设置
+        array[6] = setting.getDeflatedTime();       //放气时间设置
+        array[7] = setting.getWorkingThreshold();   //工作阈值设置
+        array[8] = setting.getDegree();             //枕头软硬程度
+        array[9] = setting.getWokingTime();         //工作延时设置
+        array[10] = setting.getRestDevice();        //复位设备
+        array[11] = setting.getResetData();         //恢复出厂
+        array[12] = setting.getClearData();         //清除数据
 
         return BluetoothConvert.encapsulateSetData(array);
     }
