@@ -229,7 +229,7 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
         } else if ("end_timming_h".equals(key)) {
             etEndTimingHour.setText(item);
             PreferenceUtil.setIntValue(key, selectedIndex);
-            writeSettings(new int[]{2, selectedIndex});
+            writeSettings(new int[]{3, selectedIndex});
         } else if ("end_timming_m".equals(key)) {
             etEndTimingMis.setText(item);
             PreferenceUtil.setIntValue(key, selectedIndex);
