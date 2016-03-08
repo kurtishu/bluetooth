@@ -85,8 +85,10 @@ public class BluetoothLeService extends Service {
 
         // 写入读取显示设置的指令
         byte[] requestCommad = BluetoothSettingManager.getInstance().getReadableData();
+
         //开始写指令
         bluetoothHelper.getSelectedCharacteristic().setValue(requestCommad);
+
         // 给蓝牙写特征值，值就写入蓝牙模块
         bluetoothHelper.writeCharacteristic(bluetoothHelper.getSelectedCharacteristic());
 

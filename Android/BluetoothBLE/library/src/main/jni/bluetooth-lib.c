@@ -28,7 +28,6 @@
 #define READ_INDEX_LEN  8            //读操作序列长度
 #define WRITE_INDEX_LEN 13           //写操作序列长度
 
-
 /*********************************************************************
  * GLOBAL VARIABLES
  */
@@ -73,7 +72,7 @@ jint WriteIndexArr[] = {10,11,12,13,14, 5,6,7,8,9, 60,61,62};
 /*********************************************************************
  * LOCAL FUNCTIONS
  */
-jbyte CrcSum(const jbyte *crcData, jbyte crcDataLen);
+jchar CrcSum(const jchar *crcData, jchar crcDataLen);
 
 
 /*********************************************************************
@@ -88,24 +87,32 @@ jbyte CrcSum(const jbyte *crcData, jbyte crcDataLen);
  */
 JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConvert_encapsulateShowData
         (JNIEnv * env, jclass obj) {
-    LOGE("log string from ndk.");
     //新添加代码
-    jbyte i;
+    jchar i;
 
     jbyteArray dat = (*env)->NewByteArray(env, READ_INDEX_LEN+4);
     jbyte *datPtr = (*env)->GetByteArrayElements(env, dat, 0 );     //获得byte数组指针
 
-    datPtr[0] = 0x01;                       //从设备id
-    datPtr[1] = 0x02;                       //随机写操作
-    datPtr[2] = READ_INDEX_LEN;            //读数据长度
+    jcharArray cdat = (*env)->NewCharArray(env, READ_INDEX_LEN+4);
+    jchar *cdatPtr = (*env)->GetCharArrayElements(env, cdat, 0 );     //获得char数组指针
+
+    cdatPtr[0] = 0x01;                       //从设备id
+    cdatPtr[1] = 0x02;                       //随机写操作
+    cdatPtr[2] = READ_INDEX_LEN;            //读数据长度
 
     for (i = 0; i <READ_INDEX_LEN; ++i)
-        datPtr[3+i]   = ReadIndexArr[i];   //写入地址
+        cdatPtr[3+i]   = ReadIndexArr[i];   //写入地址
 
-    datPtr[READ_INDEX_LEN+3] = CrcSum( datPtr, READ_INDEX_LEN+3 );          //crc检验值
+    cdatPtr[READ_INDEX_LEN+3] = CrcSum( cdatPtr, READ_INDEX_LEN+3 );          //crc检验值
+
+    LOGE("Encapsulate show data--->");
+    for (i = 0; i <READ_INDEX_LEN+4 ; ++i) {
+        datPtr[i] = cdatPtr[i];
+        LOGE("%x--%x",cdatPtr[i],datPtr[i]);
+    }
 
     (*env)->ReleaseByteArrayElements(env, dat, datPtr, 0);                  //释放byte数组指针
-
+    (*env)->ReleaseCharArrayElements(env, cdat, cdatPtr, 0);                  //释放byte数组指针
     return dat;
 }
 
@@ -125,7 +132,16 @@ JNIEXPORT jintArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConve
     if( arrPtr == NULL )
         return NULL;
 
-    crcSum = CrcSum( arrPtr, READ_INDEX_LEN+3 );
+    jcharArray cdat = (*env)->NewCharArray(env, READ_INDEX_LEN+4);
+    jchar *cdatPtr = (*env)->GetCharArrayElements(env, cdat, 0 );     //获得char数组指针
+
+    LOGE("Decapsulate show data--->");
+    for (i = 0; i <READ_INDEX_LEN+4 ; ++i) {
+        cdatPtr[i] = arrPtr[i];
+        LOGE("%x--%x",cdatPtr[i],arrPtr[i]);
+    }
+
+    crcSum = CrcSum( cdatPtr, READ_INDEX_LEN+3 );
 
     if( crcSum == arrPtr[READ_INDEX_LEN+3] )                            //如果检验和正确
     {
@@ -142,6 +158,7 @@ JNIEXPORT jintArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConve
     }
 
     (*env)->ReleaseByteArrayElements(env, array, arrPtr, 0);        //释放int数组指针
+    (*env)->ReleaseCharArrayElements(env, cdat, cdatPtr, 0);        //释放int数组指针
     return NULL;
 }
 
@@ -155,52 +172,43 @@ JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConv
 
     //新添加代码
     jint* arrPtr;
-    jbyte i,lowbyte;
+    jchar i,lowbyte;
 
     arrPtr = (*env)->GetIntArrayElements(env, array, 0);            //传入int数组指针
     if( arrPtr == NULL )    //没有写入的数据
         return NULL;
 
-    LOGE("Setting data:");
-    for (i = 0; i <WRITE_INDEX_LEN ; ++i) {
+    jcharArray cdat = (*env)->NewCharArray(env, WRITE_INDEX_LEN*2+4);
+    jchar *cdatPtr = (*env)->GetCharArrayElements(env, cdat, 0 );     //获得char数组指针
 
-        LOGE("%d",arrPtr[i]);
-    }
-
-    jbyteArray dat = (*env)->NewByteArray(env, WRITE_INDEX_LEN*2+4);
-    jbyte *datPtr = (*env)->GetByteArrayElements(env, dat, 0 );     //获得byte数组指针
-
-
-    datPtr[0] = 0x01;                       //从设备id
-    datPtr[1] = 0x04;                       //随机写操作
-    datPtr[2] = WRITE_INDEX_LEN*2;          //写数据长度
+    cdatPtr[0] = 0x01;                       //从设备id
+    cdatPtr[1] = 0x04;                       //随机写操作
+    cdatPtr[2] = WRITE_INDEX_LEN*2;          //写数据长度
 
 
     for (i = 0; i <WRITE_INDEX_LEN; ++i)
-        datPtr[3+i]   = WriteIndexArr[i];   //写入地址
+        cdatPtr[3+i]   = WriteIndexArr[i];   //写入地址
 
-    LOGE("Low byte");
     for (i = 0; i <WRITE_INDEX_LEN; ++i)
     {
         lowbyte   = arrPtr[i] & 0xFF;           //取int数值的低字节
-        datPtr[3+WRITE_INDEX_LEN+i] = lowbyte;  //写入数据
-        LOGE("%d",lowbyte);
+        cdatPtr[3+WRITE_INDEX_LEN+i] = lowbyte;  //写入数据
     }
 
-    datPtr[2*WRITE_INDEX_LEN+3] = CrcSum( datPtr, 2*WRITE_INDEX_LEN+3 );    //crc检验值
+    cdatPtr[2*WRITE_INDEX_LEN+3] = CrcSum( cdatPtr, 2*WRITE_INDEX_LEN+3 );    //crc检验值
 
-    LOGE("data---");
-    for (i = 0; i <WRITE_INDEX_LEN*2+3 ; ++i) {
+    jbyteArray dat = (*env)->NewByteArray(env, WRITE_INDEX_LEN*2+4);
+    jbyte *datPtr = (*env)->GetByteArrayElements(env, dat, 0 );               //获得byte数组指针
 
-        LOGE("%d",datPtr[i]);
+    LOGE("Encapsulate setting data--->");
+    for (i = 0; i <WRITE_INDEX_LEN*2+4 ; ++i) {
+        datPtr[i] = cdatPtr[i];
+        LOGE("%x--%x",cdatPtr[i],datPtr[i]);
     }
-
-
-
 
     (*env)->ReleaseIntArrayElements(env, array, arrPtr, 0);                 //释放int数组指针
     (*env)->ReleaseByteArrayElements(env, dat, datPtr, 0);                  //释放byte数组指针
-
+    (*env)->ReleaseCharArrayElements(env, cdat, cdatPtr, 0);                  //释放byte数组指针
 
     return dat;
 }
@@ -214,21 +222,32 @@ JNIEXPORT jint JNICALL Java_com_dreamfactory_library_convert_BluetoothConvert_de
         (JNIEnv *env, jclass obj, jbyteArray array) {
 
     jbyte* arrPtr;
-    jint i, crcSum=0;
+    jchar i, crcSum=0, ret=-1;
 
     arrPtr = (*env)->GetByteArrayElements(env, array, 0);            //传入byte数组指针
     if( arrPtr == NULL )
         return -1;
 
-    crcSum = CrcSum( arrPtr, 3 );
+    jcharArray cdat = (*env)->NewCharArray(env, 4);
+    jchar *cdatPtr = (*env)->GetCharArrayElements(env, cdat, 0 );     //获得char数组指针
+
+    LOGE("Decapsulate setting data--->");
+    for (i = 0; i <4 ; ++i) {
+        cdatPtr[i] = arrPtr[i];
+        LOGE("%x--%x",cdatPtr[i],arrPtr[i]);
+    }
+    crcSum = CrcSum( cdatPtr, 3 );
 
     if( crcSum == arrPtr[3] )
     if( arrPtr[2] == WRITE_INDEX_LEN )      //写入数据长度正常
-        return 1;
+        ret = 1;
     else
-        return 0;
+        ret = 0;
     else
-        return -1;
+        ret = -1;
+
+    (*env)->ReleaseCharArrayElements(env, cdat, cdatPtr, 0);        //释放char数组指针
+    return ret;
 }
 
 /*********************************************************************
@@ -240,9 +259,9 @@ JNIEXPORT jint JNICALL Java_com_dreamfactory_library_convert_BluetoothConvert_de
  *
  * @return  none
  */
-jbyte CrcSum(const jbyte *crcData, jbyte crcDataLen)
+jchar CrcSum(const jchar *crcData, jchar crcDataLen)
 {
-    jbyte crc8 = 0;
+    jchar crc8 = 0;
     for(; crcDataLen > 0; crcDataLen--)
     {
         crc8 = CRC8Table[crc8^*crcData];

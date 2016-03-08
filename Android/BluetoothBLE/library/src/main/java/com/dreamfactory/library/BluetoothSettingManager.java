@@ -43,6 +43,7 @@ public class BluetoothSettingManager {
      * @return
      */
     public byte[] getReadableData() {
+
         return BluetoothConvert.encapsulateShowData();
     }
 
