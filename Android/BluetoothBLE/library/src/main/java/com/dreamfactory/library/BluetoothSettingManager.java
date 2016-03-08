@@ -80,26 +80,26 @@ public class BluetoothSettingManager {
     /**
      *  将设置界面封装好的对象，封装成可以发送到蓝牙段的数据
      *
-     * @param setting 设置界面封装的对象
+     * @param array 设置界面封装的修改的数据
      *
      * @return NULL， 准备的数据不正确；否则为经过封装的数据，可以直接的通过蓝牙发送。
      */
-    public byte[] getWriteableData(BluetoothWriteableSetting setting) {
-        int array[] = new int[WRITE_INDEX_LEN];
-
-        array[0] = setting.getTimingSetting();      //定时时间设置
-        array[1] = setting.getStartTimingHour();    //定时开始时间(小时)
-        array[2] = setting.getStartTimingMis();     //定时开始时间(分钟)
-        array[3] = setting.getEndTimingHour();      //定时结束时间(小时)
-        array[4] = setting.getEndTimingMis();       //定时结束时间(分钟)
-        array[5] = setting.getInflatedTime();       //充气时间设置
-        array[6] = setting.getDeflatedTime();       //放气时间设置
-        array[7] = setting.getWorkingThreshold();   //工作阈值设置
-        array[8] = setting.getDegree();             //枕头软硬程度
-        array[9] = setting.getWokingTime();         //工作延时设置
-        array[10] = setting.getRestDevice();        //复位设备
-        array[11] = setting.getResetData();         //恢复出厂
-        array[12] = setting.getClearData();         //清除数据
+    public byte[] getWriteableData(int[] array) {
+//        int array[] = new int[WRITE_INDEX_LEN];
+//
+//        array[0] = setting.getTimingSetting();      //定时时间设置
+//        array[1] = setting.getStartTimingHour();    //定时开始时间(小时)
+//        array[2] = setting.getStartTimingMis();     //定时开始时间(分钟)
+//        array[3] = setting.getEndTimingHour();      //定时结束时间(小时)
+//        array[4] = setting.getEndTimingMis();       //定时结束时间(分钟)
+//        array[5] = setting.getInflatedTime();       //充气时间设置
+//        array[6] = setting.getDeflatedTime();       //放气时间设置
+//        array[7] = setting.getWorkingThreshold();   //工作阈值设置
+//        array[8] = setting.getDegree();             //枕头软硬程度
+//        array[9] = setting.getWokingTime();         //工作延时设置
+//        array[10] = setting.getRestDevice();        //复位设备
+//        array[11] = setting.getResetData();         //恢复出厂
+//        array[12] = setting.getClearData();         //清除数据
 
         return BluetoothConvert.encapsulateSetData(array);
     }
