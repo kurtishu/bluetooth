@@ -105,14 +105,14 @@ public class BluetoothLeService extends Service {
 
     /**
      * 设置数据
-     * @param setting 界面封装好 BluetoothWriteableSetting对象
+     * @param array 界面封装好 BluetoothWriteableSetting对象
      */
-    private void writeData(BluetoothWriteableSetting setting) {
+    private void writeData(int[] array) {
         if (null == bluetoothHelper.getSelectedCharacteristic()) return;
 
         LogUtil.i(TAG, "writeData start");
         //根据BluetoothWriteableSetting对象，封装设置指令
-        byte[] requestCommad = BluetoothSettingManager.getInstance().getWriteableData(setting);
+        byte[] requestCommad = BluetoothSettingManager.getInstance().getWriteableData(array);
         // 写特征值，同上
         bluetoothHelper.getSelectedCharacteristic().setValue(requestCommad);
         bluetoothHelper.writeCharacteristic(bluetoothHelper.getSelectedCharacteristic());

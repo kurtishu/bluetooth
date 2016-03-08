@@ -8,14 +8,14 @@ import com.dreamfactory.library.model.BluetoothWriteableSetting;
  */
 public class WriteableSettingEvent {
 
-    private final BluetoothWriteableSetting setting;
+    private final int[] array;
 
-    public WriteableSettingEvent(BluetoothWriteableSetting setting) {
-        this.setting = setting;
+    public WriteableSettingEvent(int[] array) {
+        this.array = array;
     }
 
-    public BluetoothWriteableSetting getWriteableSetting() {
-        return setting;
+    public int[] getWriteableSetting() {
+        return array;
     }
 }
 

@@ -85,7 +85,7 @@ public class SettingActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_save:
-                configSettingFragment.writeSettings();
+                //configSettingFragment.writeSettings();
                 break;
         }
         return super.onOptionsItemSelected(item);
