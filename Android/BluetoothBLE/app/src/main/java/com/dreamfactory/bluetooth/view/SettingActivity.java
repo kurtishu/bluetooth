@@ -96,7 +96,7 @@ public class SettingActivity extends BaseActivity {
             super.handleMessage(msg);
             sendCommand(BluetoothLeService.ACTION_READ_DATA);
             if (!isFinishing()) {
-                //mHandler.sendEmptyMessageDelayed(READ_DATA_DURATION, READ_DATA_DURATION);
+                mHandler.sendEmptyMessageDelayed(READ_DATA_DURATION, READ_DATA_DURATION);
             }
         }
     };

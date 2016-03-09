@@ -219,32 +219,35 @@ JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConv
 JNIEXPORT jint JNICALL Java_com_dreamfactory_library_convert_BluetoothConvert_decapsulateSetData
         (JNIEnv *env, jclass obj, jbyteArray array) {
 
-    jbyte* arrPtr;
-    jchar i, crcSum=0, ret=-1;
+    jbyte *arrPtr;
+    jchar i, crcSum = 0, ret = -1;
 
     arrPtr = (*env)->GetByteArrayElements(env, array, 0);            //传入byte数组指针
-    if( arrPtr == NULL )
+    if (arrPtr == NULL)
         return -1;
 
     jcharArray cdat = (*env)->NewCharArray(env, 4);
-    jchar *cdatPtr = (*env)->GetCharArrayElements(env, cdat, 0 );     //获得char数组指针
+    jchar *cdatPtr = (*env)->GetCharArrayElements(env, cdat, 0);     //获得char数组指针
 
     LOGE("Decapsulate setting data--->");
-    for (i = 0; i <4 ; ++i) {
-        cdatPtr[i] = arrPtr[i];
-        LOGE("%x--%x",cdatPtr[i],arrPtr[i]);
+    for (i = 0; i < 4; ++i) {
+        cdatPtr[i] = arrPtr[i] &0xff;
+        LOGE("%x--%x", cdatPtr[i], arrPtr[i]);
     }
-    crcSum = CrcSum( cdatPtr, 3 );
+    crcSum = CrcSum(cdatPtr, 3);
+    LOGE("crc--%x", crcSum);
 
-    if( crcSum == arrPtr[3] )
-    if( arrPtr[2] == WRITE_INDEX_LEN )      //写入数据长度正常
+    if (crcSum == cdatPtr[3] ) {
+    if (arrPtr[2] == ONE_WRITE_LEN)      //写入数据长度正常
         ret = 1;
     else
         ret = 0;
+    }
     else
         ret = -1;
 
     (*env)->ReleaseCharArrayElements(env, cdat, cdatPtr, 0);        //释放char数组指针
+    (*env)->ReleaseByteArrayElements(env, array, arrPtr, 0);        //释放byte数组指针
     return ret;
 }
 

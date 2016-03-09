@@ -47,6 +47,7 @@ public class BluetoothLeService extends Service {
 
     private BluetoothHelper bluetoothHelper;
     private boolean isReadingCharacteristic = false;
+    private boolean isWrittingCharacteristic = false;
 
     @Override
     public void onCreate() {
@@ -113,14 +114,8 @@ public class BluetoothLeService extends Service {
         bluetoothHelper.getSelectedCharacteristic().setValue(requestCommad);
 
         bluetoothHelper.writeCharacteristic(bluetoothHelper.getSelectedCharacteristic());
-        // 解析返回结果
-        byte[] result = bluetoothHelper.getSelectedCharacteristic().getValue();
-        //校验数据的完整性。。 省略（需要校验写数据的完整性，今天讨论的？）
 
-        //解析返回的结果，获取写操作后的结果 0， 准备的数据没有全部写入下位机； 1，写入正常； －1 通信数据不正确
-        int status = BluetoothSettingManager.getInstance().getWriteableSettings(result);
-        LogUtil.i(TAG, "writeData with status " + status);
-        // 后面还应该，根据状态值给用户一个响应的提示，是写成功，还是失败了，这个后序再做。TODO
+        isWrittingCharacteristic = true;
     }
 
     @Override
@@ -181,18 +176,29 @@ public class BluetoothLeService extends Service {
         @Override
         public void onCharacteristicRead(BluetoothGattCharacteristic characteristic) {
 
-            if (isReadingCharacteristic) {
-                // 获取返回特征值，特征值里面就带有返回结果
-                byte[] result = characteristic.getValue();
-                //校验数据的完整性。。 省略（需要校验写数据的完整性，今天讨论的？）
+            // 获取返回特征值，特征值里面就带有返回结果
+            byte[] result = characteristic.getValue();
 
-                // 解析返回的特征值，这里会调用Native 方法， 返回一个对象 BluetoothReadableSetting
-                BluetoothReadableSetting setting = BluetoothSettingManager.getInstance().getReadableSetting(result);
+            if ( result.length > 0 ) {
+                if (isReadingCharacteristic && (result.length > 4) ) {
+                    // 解析返回的特征值，这里会调用Native 方法， 返回一个对象 BluetoothReadableSetting
+                    BluetoothReadableSetting setting = BluetoothSettingManager.getInstance().getReadableSetting(result);
 
-                // 显示数据，界面显示（这边使用的EventBus，订阅模式，一种解耦合的方法）
-                EventBus.getDefault().post(new ReadableSettingEvent(setting));
-                isReadingCharacteristic = false;
+                    // 显示数据，界面显示（这边使用的EventBus，订阅模式，一种解耦合的方法）
+                    EventBus.getDefault().post(new ReadableSettingEvent(setting));
+                    isReadingCharacteristic = false;
+                }
+                if (isWrittingCharacteristic && (result.length == 4)) {
+                    int write = BluetoothSettingManager.getInstance().getWriteableSettings(result);
+                    //解析返回的结果，获取写操作后的结果 0， 准备的数据没有全部写入下位机； 1，写入正常； －1 通信数据不正确
+
+                    LogUtil.i(TAG, "--->Setting Page return result:" + write);
+
+                    isWrittingCharacteristic = false;
+                }
             }
+            else
+                LogUtil.i(TAG, "**Unknown Data**");
         }
     };
 }

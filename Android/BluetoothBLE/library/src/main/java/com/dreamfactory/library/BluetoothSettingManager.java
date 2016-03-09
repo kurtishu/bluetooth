@@ -57,11 +57,12 @@ public class BluetoothSettingManager {
         BluetoothReadableSetting setting = null;
         int[] result = BluetoothConvert.decapsulateShowData(array);
 
-        for (int res : result) {
-            Log.i("Kurtis", "getReadableSetting:" + res);
-        }
+        if ( result  != null ) {
 
-        if ( array  != null || !array.equals("") ) {
+            for (int res : result) {
+                Log.i("Kurtis", "getReadableSetting:" + res);
+            }
+
             //  返回一个对象，现在是mock的数据， 以后要换成实际的数据
             setting = new BluetoothReadableSetting();
 
