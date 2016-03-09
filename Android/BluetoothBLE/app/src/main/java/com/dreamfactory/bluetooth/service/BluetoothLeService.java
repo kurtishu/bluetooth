@@ -115,6 +115,7 @@ public class BluetoothLeService extends Service {
         byte[] requestCommad = BluetoothSettingManager.getInstance().getWriteableData(array);
         // 写特征值，同上
         bluetoothHelper.getSelectedCharacteristic().setValue(requestCommad);
+
         bluetoothHelper.writeCharacteristic(bluetoothHelper.getSelectedCharacteristic());
         // 解析返回结果
         byte[] result = bluetoothHelper.getSelectedCharacteristic().getValue();

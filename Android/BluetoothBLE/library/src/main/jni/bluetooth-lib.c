@@ -28,6 +28,8 @@
 #define READ_INDEX_LEN  8            //读操作序列长度
 #define WRITE_INDEX_LEN 13           //写操作序列长度
 
+#define ONE_WRITE_LEN       1
+
 /*********************************************************************
  * GLOBAL VARIABLES
  */
@@ -178,30 +180,26 @@ JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConv
     if( arrPtr == NULL )    //没有写入的数据
         return NULL;
 
-    jcharArray cdat = (*env)->NewCharArray(env, WRITE_INDEX_LEN*2+4);
+    jcharArray cdat = (*env)->NewCharArray(env, ONE_WRITE_LEN*2+4);
     jchar *cdatPtr = (*env)->GetCharArrayElements(env, cdat, 0 );     //获得char数组指针
 
     cdatPtr[0] = 0x01;                       //从设备id
     cdatPtr[1] = 0x04;                       //随机写操作
-    cdatPtr[2] = WRITE_INDEX_LEN*2;          //写数据长度
+    cdatPtr[2] = ONE_WRITE_LEN*2;          //写数据长度
 
-
-    for (i = 0; i <WRITE_INDEX_LEN; ++i)
-        cdatPtr[3+i]   = WriteIndexArr[i];   //写入地址
-
-    for (i = 0; i <WRITE_INDEX_LEN; ++i)
+    for (i = 0; i <ONE_WRITE_LEN*2; ++i)
     {
         lowbyte   = arrPtr[i] & 0xFF;           //取int数值的低字节
-        cdatPtr[3+WRITE_INDEX_LEN+i] = lowbyte;  //写入数据
+        cdatPtr[3+i] = lowbyte;  //写入数据
     }
 
-    cdatPtr[2*WRITE_INDEX_LEN+3] = CrcSum( cdatPtr, 2*WRITE_INDEX_LEN+3 );    //crc检验值
+    cdatPtr[2*ONE_WRITE_LEN+3] = CrcSum( cdatPtr, 2*ONE_WRITE_LEN+3 );    //crc检验值
 
-    jbyteArray dat = (*env)->NewByteArray(env, WRITE_INDEX_LEN*2+4);
+    jbyteArray dat = (*env)->NewByteArray(env, ONE_WRITE_LEN*2+4);
     jbyte *datPtr = (*env)->GetByteArrayElements(env, dat, 0 );               //获得byte数组指针
 
     LOGE("Encapsulate setting data--->");
-    for (i = 0; i <WRITE_INDEX_LEN*2+4 ; ++i) {
+    for (i = 0; i <ONE_WRITE_LEN*2+4 ; ++i) {
         datPtr[i] = cdatPtr[i];
         LOGE("%x--%x",cdatPtr[i],datPtr[i]);
     }
