@@ -77,7 +77,7 @@ public class ServicesExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         final BluetoothGattService service = getGroup(groupPosition);
         ViewHolder viewHolder = ViewHolder.get(convertView, parent, groupPosition, R.layout.layout_item_group, inflater);
-        viewHolder.setText(R.id.section_header_text, SampleGattAttributes.lookup(service.getUuid().toString(), "unknow service"));
+        viewHolder.setText(R.id.section_header_text, SampleGattAttributes.lookup(service.getUuid().toString(), "Unknow service"));
         viewHolder.setText(R.id.sub_textview, service.getUuid().toString());
         return viewHolder.getConvertView();
     }
@@ -86,7 +86,7 @@ public class ServicesExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = ViewHolder.get(convertView, parent, childPosition, R.layout.layout_item_child, inflater);
         final BluetoothGattCharacteristic characteristic = getChild(groupPosition, childPosition);
-        viewHolder.setText(R.id.title_textview, String.valueOf(characteristic.getPermissions()));
+        viewHolder.setText(R.id.title_textview, SampleGattAttributes.lookup(characteristic.getUuid().toString(), "Unknow Characteristic"));
         viewHolder.setText(R.id.sub_textview, characteristic.getUuid().toString());
 
         viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {

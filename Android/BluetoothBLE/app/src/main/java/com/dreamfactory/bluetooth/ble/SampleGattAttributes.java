@@ -19,9 +19,14 @@ public class SampleGattAttributes {
         // Sample Characteristics.
         attributes.put(HEART_RATE_MEASUREMENT, "Heart Rate Measurement");
         attributes.put("00002a29-0000-1000-8000-00805f9b34fb", "Manufacturer Name String");
+        attributes.put("00001800-0000-1000-8000-00805f9b34fb", "Generic Access Profile");
+        attributes.put("00001801-0000-1000-8000-00805f9b34fb", "Generic Attribute Profile");
     }
 
     public static String lookup(String uuid, String defaultName) {
+        if (null != uuid) {
+            uuid = uuid.toLowerCase();
+        }
         String name = attributes.get(uuid);
         return name == null ? defaultName : name;
     }
