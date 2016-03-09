@@ -89,7 +89,8 @@ public class BluetoothLeService extends Service {
         bluetoothHelper.getSelectedCharacteristic().setValue(requestCommad);
         // 给蓝牙写特征值，值就写入蓝牙模块
         bluetoothHelper.writeCharacteristic(bluetoothHelper.getSelectedCharacteristic());
-
+        //发送读取Characteristic 命令
+        bluetoothHelper.readerCharacteristic(bluetoothHelper.getSelectedCharacteristic());
         // 获取返回特征值，特征值里面就带有返回结果
         byte[] result = bluetoothHelper.getSelectedCharacteristic().getValue();
         //校验数据的完整性。。 省略（需要校验写数据的完整性，今天讨论的？）
