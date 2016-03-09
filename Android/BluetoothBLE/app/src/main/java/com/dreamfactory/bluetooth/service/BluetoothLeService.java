@@ -2,6 +2,7 @@ package com.dreamfactory.bluetooth.service;
 
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Intent;
 import android.os.IBinder;
@@ -45,6 +46,7 @@ public class BluetoothLeService extends Service {
     private static final String TAG = "BluetoothLeService";
 
     private BluetoothHelper bluetoothHelper;
+    private boolean isReadingCharacteristic = false;
 
     @Override
     public void onCreate() {
@@ -91,15 +93,8 @@ public class BluetoothLeService extends Service {
         bluetoothHelper.writeCharacteristic(bluetoothHelper.getSelectedCharacteristic());
         //发送读取Characteristic 命令
         bluetoothHelper.readerCharacteristic(bluetoothHelper.getSelectedCharacteristic());
-        // 获取返回特征值，特征值里面就带有返回结果
-        byte[] result = bluetoothHelper.getSelectedCharacteristic().getValue();
-        //校验数据的完整性。。 省略（需要校验写数据的完整性，今天讨论的？）
-
-        // 解析返回的特征值，这里会调用Native 方法， 返回一个对象 BluetoothReadableSetting
-        BluetoothReadableSetting setting = BluetoothSettingManager.getInstance().getReadableSetting(result);
-
-        // 显示数据，界面显示（这边使用的EventBus，订阅模式，一种解耦合的方法）
-        EventBus.getDefault().post(new ReadableSettingEvent(setting));
+        //设置开始读的标志
+        isReadingCharacteristic = true;
     }
 
     /**
@@ -178,6 +173,23 @@ public class BluetoothLeService extends Service {
         @Override
         public void onDiscoveredServices(List<BluetoothGattService> services) {
             EventBus.getDefault().post(new GetServicesEvent(services));
+        }
+
+        @Override
+        public void onCharacteristicRead(BluetoothGattCharacteristic characteristic) {
+
+            if (isReadingCharacteristic) {
+                // 获取返回特征值，特征值里面就带有返回结果
+                byte[] result = characteristic.getValue();
+                //校验数据的完整性。。 省略（需要校验写数据的完整性，今天讨论的？）
+
+                // 解析返回的特征值，这里会调用Native 方法， 返回一个对象 BluetoothReadableSetting
+                BluetoothReadableSetting setting = BluetoothSettingManager.getInstance().getReadableSetting(result);
+
+                // 显示数据，界面显示（这边使用的EventBus，订阅模式，一种解耦合的方法）
+                EventBus.getDefault().post(new ReadableSettingEvent(setting));
+                isReadingCharacteristic = false;
+            }
         }
     };
 }

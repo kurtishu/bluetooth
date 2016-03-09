@@ -48,9 +48,14 @@ public class BluetoothGattConnectCallback extends BluetoothGattCallback {
         super.onCharacteristicRead(gatt, characteristic, status);
         LogUtil.i(TAG, "onCharacteristicRead status=" + status + " characteristic =" + characteristic.toString());
 
-        byte[] result = characteristic.getValue();
-        String res = new String(result);
-        LogUtil.i(TAG, "onCharacteristicRead result: " + res);
+        byte[] bytes = characteristic.getValue();
+        for (byte b : bytes) {
+            LogUtil.i(TAG, "onCharacteristicRead result:" + b);
+        }
+
+        if (null != discoverServiceListener) {
+            discoverServiceListener.onCharacteristicRead(characteristic);
+        }
     }
 
     @Override
@@ -63,10 +68,10 @@ public class BluetoothGattConnectCallback extends BluetoothGattCallback {
     public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         super.onCharacteristicChanged(gatt, characteristic);
         LogUtil.i(TAG, "onCharacteristicChanged characteristic=" + characteristic);
-
-        byte[] result = characteristic.getValue();
-        String res = new String(result);
-        LogUtil.i(TAG, "onCharacteristicChanged result: " + res);
+        byte[] bytes = characteristic.getValue();
+        for (byte b : bytes) {
+            LogUtil.i(TAG, "onCharacteristicChanged result:" + b);
+        }
     }
 
     @Override
@@ -102,6 +107,9 @@ public class BluetoothGattConnectCallback extends BluetoothGattCallback {
 
     public interface DiscoverServiceListener {
 
-        public void onDiscoveredServices(List<BluetoothGattService> services);
+        void onDiscoveredServices(List<BluetoothGattService> services);
+
+        void onCharacteristicRead(BluetoothGattCharacteristic characteristic);
+
     }
 }
