@@ -47,6 +47,10 @@ public class BluetoothGattConnectCallback extends BluetoothGattCallback {
     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         super.onCharacteristicRead(gatt, characteristic, status);
         LogUtil.i(TAG, "onCharacteristicRead status=" + status + " characteristic =" + characteristic.toString());
+
+        byte[] result = characteristic.getValue();
+        String res = new String(result);
+        LogUtil.i(TAG, "onCharacteristicRead result: " + res);
     }
 
     @Override
@@ -58,7 +62,11 @@ public class BluetoothGattConnectCallback extends BluetoothGattCallback {
     @Override
     public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         super.onCharacteristicChanged(gatt, characteristic);
-        LogUtil.i(TAG, "onServicesDiscovered characteristic=" + characteristic);
+        LogUtil.i(TAG, "onCharacteristicChanged characteristic=" + characteristic);
+
+        byte[] result = characteristic.getValue();
+        String res = new String(result);
+        LogUtil.i(TAG, "onCharacteristicChanged result: " + res);
     }
 
     @Override
