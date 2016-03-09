@@ -125,6 +125,7 @@ public class BluetoothHelper {
      * 读取BluetoothGattCharacteristic数据
      */
     public void readerCharacteristic(BluetoothGattCharacteristic characteristic) {
+        mBluetoothGatt.setCharacteristicNotification(characteristic, true);
         mBluetoothGatt.readCharacteristic(characteristic);
     }
 
