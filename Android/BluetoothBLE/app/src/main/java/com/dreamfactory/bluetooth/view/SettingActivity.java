@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,11 +20,12 @@ import com.dreamfactory.bluetooth.view.fragment.ConfigSettingFragment;
 
 public class SettingActivity extends BaseActivity {
 
+    // Sync readable data every five seconds
+    private static final int READ_DATA_DURATION = 5000;
     private ConfigSettingFragment configSettingFragment;
     private ConfigDisplayFragment configDisplayFragment;
     private RadioGroup tabGroup;
     private BluetoothDevice mDevice;
-    private MenuItem saveItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,7 @@ public class SettingActivity extends BaseActivity {
         tabGroup.setOnCheckedChangeListener(mChangedListener);
         tabGroup.check(R.id.diaplay_button);
 
-        sendCommand(BluetoothLeService.ACTION_READ_DATA);
+        mHandler.sendEmptyMessage(READ_DATA_DURATION);
     }
 
     private RadioGroup.OnCheckedChangeListener mChangedListener = new RadioGroup.OnCheckedChangeListener() {
@@ -49,16 +52,10 @@ public class SettingActivity extends BaseActivity {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content, configSettingFragment)
                         .commit();
-                if (null != saveItem) {
-                    saveItem.setVisible(true);
-                }
             } else {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content, configDisplayFragment)
                         .commit();
-                if (null != saveItem) {
-                    saveItem.setVisible(false);
-                }
             }
         }
     };
@@ -72,8 +69,6 @@ public class SettingActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_settings, menu);
-        saveItem = menu.findItem(R.id.action_save);
-        saveItem.setVisible(false);
         return true;
     }
 
@@ -85,7 +80,6 @@ public class SettingActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.action_save:
-                //configSettingFragment.writeSettings();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -95,4 +89,15 @@ public class SettingActivity extends BaseActivity {
     protected void onReceived(Context context, Intent intent) {
         super.onReceived(context, intent);
     }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            sendCommand(BluetoothLeService.ACTION_READ_DATA);
+            if (!isFinishing()) {
+                mHandler.sendEmptyMessageDelayed(READ_DATA_DURATION, READ_DATA_DURATION);
+            }
+        }
+    };
 }
