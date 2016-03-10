@@ -31,7 +31,7 @@ public class BLEScanner {
 
     public BLEScanner(BluetoothAdapter adapter) {
         this.mAdapter = adapter;
-        mDevices = new ArrayList<>();
+        mDevices = new ArrayList<BluetoothDevice>();
     }
 
 
@@ -124,7 +124,15 @@ public class BLEScanner {
     };
 
     private void addDevice(BluetoothDevice targetDevice) {
-        mDevices.add(targetDevice);
+        if (0 == mDevices.size()) {
+            mDevices.add(targetDevice);
+        } else {
+            for (BluetoothDevice device : mDevices) {
+                if (!device.getAddress().equals(targetDevice)) {
+                    mDevices.add(targetDevice);
+                }
+            }
+        }
 
         if (null != scannerListener) {
             scannerListener.onScanResult(mDevices);
