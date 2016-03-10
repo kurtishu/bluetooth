@@ -8,6 +8,7 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.os.Build;
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.dreamfactory.bluetooth.util.LogUtil;
 
@@ -124,14 +125,21 @@ public class BLEScanner {
     };
 
     private void addDevice(BluetoothDevice targetDevice) {
-        if (0 == mDevices.size()) {
-            mDevices.add(targetDevice);
-        } else {
-            for (BluetoothDevice device : mDevices) {
-                if (!device.getAddress().equals(targetDevice)) {
-                    mDevices.add(targetDevice);
-                }
+
+        // Remove the device without device name.
+        if (TextUtils.isEmpty(targetDevice.getName())) {
+            return;
+        }
+
+        // Check whether the device exists.
+        boolean isExisted = false;
+        for (BluetoothDevice device : mDevices) {
+            if (device.getAddress().equals(targetDevice)) {
+                isExisted = true;
             }
+        }
+        if (!isExisted) {
+            mDevices.add(targetDevice);
         }
 
         if (null != scannerListener) {
