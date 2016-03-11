@@ -46,4 +46,9 @@ public class BluetoothConvert {
      * @return 0， 准备的数据没有全部写入下位机； 1，写入正常； －1 通信数据不正确
      */
     public static native int decapsulateSetData(byte[] array);
+
+    /**
+     * 同步时间
+     */
+    public static native byte[] encapsulateSysTime(int[] array);
 }

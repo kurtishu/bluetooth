@@ -29,6 +29,8 @@
 #define WRITE_INDEX_LEN 13           //写操作序列长度
 
 #define ONE_WRITE_LEN       1
+#define DATE_WRITE_LEN      6
+#define TIME_ADDR_START     65
 
 /*********************************************************************
  * GLOBAL VARIABLES
@@ -249,6 +251,53 @@ JNIEXPORT jint JNICALL Java_com_dreamfactory_library_convert_BluetoothConvert_de
     (*env)->ReleaseCharArrayElements(env, cdat, cdatPtr, 0);        //释放char数组指针
     (*env)->ReleaseByteArrayElements(env, array, arrPtr, 0);        //释放byte数组指针
     return ret;
+}
+
+/*
+ * Class:     Java_com_dreamfactory_library_convert_BluetoothConvert_encapsulateSysTime
+ * Method:    encapsulateSetData
+ * Signature: ([I)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConvert_encapsulateSysTime
+        (JNIEnv *env, jclass obj, jintArray array) {
+    //新添加代码
+    jint* arrPtr;
+    jchar i,lowbyte;
+
+    arrPtr = (*env)->GetIntArrayElements(env, array, 0);            //传入int数组指针
+    if( arrPtr == NULL )    //没有写入的数据
+        return NULL;
+
+    jcharArray cdat = (*env)->NewCharArray(env, DATE_WRITE_LEN+5);
+    jchar *cdatPtr = (*env)->GetCharArrayElements(env, cdat, 0 );     //获得char数组指针
+
+    cdatPtr[0] = 0x01;                       //从设备id
+    cdatPtr[1] = 0x03;                       //随机写操作
+    cdatPtr[2] = TIME_ADDR_START;            //起始地址
+    cdatPtr[3] = DATE_WRITE_LEN;             //写数据长度
+
+    for (i = 0; i <DATE_WRITE_LEN; ++i)
+    {
+        lowbyte   = arrPtr[i] & 0xFF;           //取int数值的低字节
+        cdatPtr[4+i] = lowbyte;  //写入数据
+    }
+
+    cdatPtr[DATE_WRITE_LEN+4] = CrcSum( cdatPtr, DATE_WRITE_LEN+4 );    //crc检验值
+
+    jbyteArray dat = (*env)->NewByteArray(env, DATE_WRITE_LEN+5);
+    jbyte *datPtr = (*env)->GetByteArrayElements(env, dat, 0 );               //获得byte数组指针
+
+    LOGE("Encapsulate setting data--->");
+    for (i = 0; i <DATE_WRITE_LEN+5 ; ++i) {
+        datPtr[i] = cdatPtr[i];
+        LOGE("%x--%x",cdatPtr[i],datPtr[i]);
+    }
+
+    (*env)->ReleaseIntArrayElements(env, array, arrPtr, 0);                 //释放int数组指针
+    (*env)->ReleaseByteArrayElements(env, dat, datPtr, 0);                  //释放byte数组指针
+    (*env)->ReleaseCharArrayElements(env, cdat, cdatPtr, 0);                  //释放byte数组指针
+
+    return dat;
 }
 
 /*********************************************************************

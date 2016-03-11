@@ -39,6 +39,9 @@ JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConv
 JNIEXPORT jint JNICALL Java_com_dreamfactory_library_convert_BluetoothConvert_decapsulateSetData
   (JNIEnv *, jclass, jbyteArray);
 
+JNIEXPORT jbyteArray JNICALL Java_com_dreamfactory_library_convert_BluetoothConvert_encapsulateSysTime
+        (JNIEnv *, jclass, jintArray);
+
 #ifdef __cplusplus
 }
 #endif

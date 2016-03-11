@@ -114,4 +114,15 @@ public class BluetoothSettingManager {
     public int getWriteableSettings(byte[] array) {
         return BluetoothConvert.decapsulateSetData(array);
     }
+
+    /**
+     *  封装时间数据
+     *
+     * @param array 系统时间
+     *
+     * @return NULL， 准备的数据不正确；否则为经过封装的数据，可以直接的通过蓝牙发送。
+     */
+    public byte[] setDateTime(int[] array) {
+        return BluetoothConvert.encapsulateSysTime(array);
+    }
 }

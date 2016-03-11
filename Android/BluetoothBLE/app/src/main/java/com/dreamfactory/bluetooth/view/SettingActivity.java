@@ -43,6 +43,7 @@ public class SettingActivity extends BaseActivity {
         tabGroup.check(R.id.diaplay_button);
 
         mHandler.sendEmptyMessage(READ_DATA_DURATION);
+        sendCommand(BluetoothLeService.ACTION_SYNC_DATE);   //同步时间
     }
 
     private RadioGroup.OnCheckedChangeListener mChangedListener = new RadioGroup.OnCheckedChangeListener() {

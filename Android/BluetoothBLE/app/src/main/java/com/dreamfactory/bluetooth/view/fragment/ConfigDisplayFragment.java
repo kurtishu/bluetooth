@@ -27,19 +27,21 @@ public class ConfigDisplayFragment extends Fragment {
     private TextView tvPumpStatus;
     private TextView tvInflatedTime;
     private TextView tvDeflateTime;
+    private View contentView;
 
     public ConfigDisplayFragment() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_display, container, false);
-        initViews(view);
-        return view;
+        if (null == contentView) {
+            contentView = inflater.inflate(R.layout.fragment_display, container, false);
+            initViews(contentView);
+        }
+
+        return contentView;
     }
 
     @Override

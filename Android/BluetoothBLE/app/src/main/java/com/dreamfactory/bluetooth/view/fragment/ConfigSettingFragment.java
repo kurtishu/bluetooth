@@ -221,39 +221,39 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
         if ("start_timming_h".equals(key)) {
             etStartTimingHour.setText(item);
             PreferenceUtil.setIntValue(key, selectedIndex);
-            writeSettings(new int[]{1, selectedIndex});
+            writeSettings(new int[]{11, selectedIndex});    //定时起始时间(时)--ind11
         } else if ("start_timming_m".equals(key)) {
             etStartTimingMis.setText(item);
             PreferenceUtil.setIntValue(key, selectedIndex);
-            writeSettings(new int[]{2, selectedIndex});
+            writeSettings(new int[]{12, selectedIndex});    //定时起始时间(分)--ind12
         } else if ("end_timming_h".equals(key)) {
             etEndTimingHour.setText(item);
             PreferenceUtil.setIntValue(key, selectedIndex);
-            writeSettings(new int[]{3, selectedIndex});
+            writeSettings(new int[]{13, selectedIndex});    //定时结束时间(时)--ind13
         } else if ("end_timming_m".equals(key)) {
             etEndTimingMis.setText(item);
             PreferenceUtil.setIntValue(key, selectedIndex);
-            writeSettings(new int[]{4, selectedIndex});
+            writeSettings(new int[]{14, selectedIndex});    //定时结束时间(分)--ind14
         } else if ("inflated_time".equals(key)) {
             etInflatedTime.setText(item);
             PreferenceUtil.setIntValue(key, selectedIndex);
-            writeSettings(new int[]{5, selectedIndex});
+            writeSettings(new int[]{5, selectedIndex});     //充气时间--ind5
         } else if ("deflated_time".equals(key)) {
             etDeflatedTime.setText(item);
             PreferenceUtil.setIntValue(key, selectedIndex);
-            writeSettings(new int[]{6, selectedIndex});
+            writeSettings(new int[]{6, selectedIndex});     //放气时间--ind6
         } else if ("working_threshold".equals(key)) {
             etWorkingThreshold.setText(item);
             PreferenceUtil.setIntValue(key, selectedIndex);
-            writeSettings(new int[]{7, selectedIndex});
-        } else if ("working_time".equals(key)) {
-            etWokingTime.setText(item);
-            PreferenceUtil.setIntValue(key, selectedIndex);
-            writeSettings(new int[]{9, selectedIndex});
+            writeSettings(new int[]{7, selectedIndex});     //工作阀值--ind7
         } else if ("degree".equals(key)) {
             etDegree.setText(item);
             PreferenceUtil.setIntValue(key, selectedIndex);
-            writeSettings(new int[]{8, selectedIndex});
+            writeSettings(new int[]{8, selectedIndex});     //枕头软硬程度--ind8
+        }else if ("working_time".equals(key)) {
+            etWokingTime.setText(item);
+            PreferenceUtil.setIntValue(key, selectedIndex);
+            writeSettings(new int[]{9, selectedIndex});     //工作延时时间--ind9
         }
     }
 
@@ -262,19 +262,19 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
         switch (buttonView.getId()) {
             case R.id.timming_setting:
                 PreferenceUtil.setIntValue("timming_setting", isChecked ? 1 : 0 );
-                writeSettings(new int[]{0, isChecked ? 1 : 0});
+                writeSettings(new int[]{10, isChecked ? 1 : 0});        //定时使能设置--ind10
                 break;
             case  R.id.reset:
                 PreferenceUtil.setIntValue("reset", isChecked ? 1 : 0 );
-                writeSettings(new int[]{10, isChecked ? 1 : 0});
+                writeSettings(new int[]{60, isChecked ? 1 : 0});        //sg复位--ind60
                 break;
             case R.id.reset_data:
                 PreferenceUtil.setIntValue("reset_data", isChecked ? 1 : 0 );
-                writeSettings(new int[]{11, isChecked ? 1 : 0});
+                writeSettings(new int[]{61, isChecked ? 1 : 0});        //恢复出厂设置--ind61
                 break;
             case R.id.clear_data:
                 PreferenceUtil.setIntValue("clear_data", isChecked ? 1 : 0 );
-                writeSettings(new int[]{12, isChecked ? 1 : 0});
+                writeSettings(new int[]{62, isChecked ? 1 : 0});        //清除数据--ind62
                 break;
         }
     }
